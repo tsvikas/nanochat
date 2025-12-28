@@ -15,7 +15,6 @@ def test_kv_cache_resize():
     https://github.com/karpathy/nanochat/pull/186
     This test reproduces the issue and will be merged alongside the fix.
     """
-
     batch_size = 2
     num_heads = 3
     seq_len = 4

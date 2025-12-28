@@ -369,7 +369,6 @@ async def generate_stream(
 @app.post("/chat/completions")
 async def chat_completions(request: ChatRequest):
     """Chat completion endpoint (streaming only) - uses worker pool for multi-GPU."""
-
     # Basic validation to prevent abuse
     validate_chat_request(request)
 

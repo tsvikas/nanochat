@@ -146,7 +146,6 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
     Codex paper for more information about OpenAI's code sandbox, and proceed
     with caution.
     """
-
     if platform.uname().system != "Darwin":
         # These resource limit calls seem to fail on macOS (Darwin), skip?
         import resource
@@ -327,7 +326,6 @@ def execute_code(
         >>> result.stdout
         'hello world\\n'
     """
-
     manager = multiprocessing.Manager()
     result_dict = manager.dict()
 

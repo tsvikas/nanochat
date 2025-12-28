@@ -164,7 +164,6 @@ def autodetect_device_type():
 
 def compute_init(device_type="cuda"):  # cuda|cpu|mps
     """Basic initialization that we keep doing over and over, so make common."""
-
     assert device_type in ["cuda", "mps", "cpu"], "Invalid device type atm"
     if device_type == "cuda":
         assert torch.cuda.is_available(), (
