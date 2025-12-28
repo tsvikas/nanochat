@@ -278,8 +278,7 @@ while True:
         with autocast_ctx:
             val_bpb = evaluate_bpb(model, val_loader, eval_steps, token_bytes)
         print0(f"Step {step:05d} | Validation bpb: {val_bpb:.4f}")
-        if val_bpb < min_val_bpb:
-            min_val_bpb = val_bpb
+        min_val_bpb = min(min_val_bpb, val_bpb)
         wandb_run.log(
             {
                 "step": step,
