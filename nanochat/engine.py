@@ -153,7 +153,7 @@ class KVCache:
         )
 
         # Batch size can be expanded (other can be 1, self can be larger)
-        assert self_batch == other_batch or other_batch == 1, (
+        assert other_batch in (self_batch, 1), (
             f"Batch size mismatch: {self_batch} vs {other_batch} (other must be 1 or equal)"
         )
 
@@ -352,7 +352,7 @@ class Engine:
                 # Update the state of this row to include the next token
                 state.current_tokens.append(next_token)
                 # On <|assistant_end|> or <|bos|>, mark the row as completed
-                if next_token == assistant_end or next_token == bos:
+                if next_token in (assistant_end, bos):
                     state.completed = True
                 # Handle tool logic
                 if next_token == python_start:
@@ -394,7 +394,7 @@ class Engine:
         for token_column, token_masks in self.generate(tokens, num_samples, **kwargs):
             for i, (token, mask) in enumerate(zip(token_column, token_masks)):
                 if not completed[i]:
-                    if token == assistant_end or token == bos:
+                    if token in (assistant_end, bos):
                         completed[i] = True
                     else:
                         results[i].append(token)

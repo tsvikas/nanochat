@@ -346,7 +346,7 @@ async def generate_stream(
             token = token_column[0]
 
             # Stopping criteria
-            if token == assistant_end or token == bos:
+            if token in (assistant_end, bos):
                 break
 
             # Append the token to sequence
