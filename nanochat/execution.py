@@ -313,7 +313,7 @@ def execute_code(
 
     p = multiprocessing.Process(
         target=_unsafe_execute,
-        args=(code, timeout, maximum_memory_bytes, result_dict)
+        args=(code, timeout, maximum_memory_bytes, result_dict),
     )
     p.start()
     p.join(timeout=timeout + 1)

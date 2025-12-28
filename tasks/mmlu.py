@@ -45,7 +45,7 @@ class MMLU(Task):
         assistant_message = self.letters[answer]
         messages = [
             {"role": "user", "content": user_message},
-            {"role": "assistant", "content": assistant_message}
+            {"role": "assistant", "content": assistant_message},
         ]
         conversation = {
             "messages": messages,

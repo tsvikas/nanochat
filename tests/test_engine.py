@@ -27,7 +27,7 @@ def test_kv_cache_resize():
         num_heads=num_heads,
         seq_len=seq_len,
         head_dim=head_dim,
-        num_layers=num_layers
+        num_layers=num_layers,
     )
 
     # Insert a single token with a distinct fill value to all layers

@@ -43,7 +43,7 @@ api_key = Path("openroutertoken.txt").read_text(encoding="utf-8").strip()
 url = "https://openrouter.ai/api/v1/chat/completions"
 headers = {
   "Authorization": f"Bearer {api_key}",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 }
 
 readme = Path("README.md").read_text(encoding="utf-8").strip()
@@ -292,22 +292,22 @@ response_format = {
             "properties": {
               "role": {
                 "type": "string",
-                "description": "The role of the speaker, either 'user' or 'assistant'"
+                "description": "The role of the speaker, either 'user' or 'assistant'",
               },
               "content": {
                 "type": "string",
-                "description": "The message content"
-              }
+                "description": "The message content",
+              },
             },
             "required": ["role", "content"],
-            "additionalProperties": False
-          }
-        }
+            "additionalProperties": False,
+          },
+        },
       },
       "required": ["messages"],
-      "additionalProperties": False
-    }
-  }
+      "additionalProperties": False,
+    },
+  },
 }
 
 # Sadly it doesn't seem like Chat completions support `n`

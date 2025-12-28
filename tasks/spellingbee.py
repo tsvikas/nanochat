@@ -198,7 +198,7 @@ Then count the occurrences of '{letter}':
         # return the full conversation
         messages = [
             {"role": "user", "content": user_msg},
-            {"role": "assistant", "content": assistant_parts}
+            {"role": "assistant", "content": assistant_parts},
         ]
         conversation = {
             "messages": messages,
@@ -263,7 +263,7 @@ class SimpleSpelling(Task):
         # return the full conversation
         messages = [
             {"role": "user", "content": f"Spell the word: {word}"},
-            {"role": "assistant", "content": f"{word}:{word_letters}"}
+            {"role": "assistant", "content": f"{word}:{word_letters}"},
         ]
         conversation = {
             "messages": messages,

@@ -51,7 +51,7 @@ def get_gpu_info():
         "available": True,
         "count": num_devices,
         "names": [],
-        "memory_gb": []
+        "memory_gb": [],
     }
 
     for i in range(num_devices):
@@ -114,7 +114,7 @@ def estimate_cost(gpu_info, runtime_hours=None):
     return {
         "hourly_rate": hourly_rate,
         "gpu_type": gpu_name,
-        "estimated_total": hourly_rate * runtime_hours if runtime_hours else None
+        "estimated_total": hourly_rate * runtime_hours if runtime_hours else None,
     }
 
 def generate_header():

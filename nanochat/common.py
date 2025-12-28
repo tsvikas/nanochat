@@ -44,7 +44,7 @@ def setup_default_logging():
     handler.setFormatter(ColoredFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[handler]
+        handlers=[handler],
     )
 
 setup_default_logging()

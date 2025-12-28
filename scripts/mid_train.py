@@ -236,7 +236,7 @@ while True:
                     "n_embd": model.config.n_embd,
                 },
                 "user_config": user_config, # inputs to the training script
-            }
+            },
         )
 
     if last_step:
@@ -313,7 +313,7 @@ if not dry_run:
         },
         { # stats about training outcomes
             "Minimum validation bpb": min_val_bpb,
-        }
+        },
     ])
 
 # cleanup

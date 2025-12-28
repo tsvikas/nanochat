@@ -103,5 +103,5 @@ get_report().log(section="Tokenizer training", data=[
         "token_bytes_max": int(token_bytes_nonzero.max().item()),
         "token_bytes_mean": token_bytes_nonzero.mean().item(),
         "token_bytes_std": token_bytes_nonzero.std().item(),
-    }
+    },
 ])

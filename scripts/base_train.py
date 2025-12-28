@@ -407,7 +407,7 @@ get_report().log(section="Base model training", data=[
         "Total training flops": f"{flops_so_far:e}",
         "Total training time": f"{total_training_time/60:.2f}m",
         "Peak memory usage": f"{get_max_memory() / 1024 / 1024:.2f}MiB",
-    }
+    },
 ])
 
 # cleanup

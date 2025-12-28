@@ -74,7 +74,7 @@ class HuggingFaceTokenizer:
         gpt4_split_regex = Regex(SPLIT_PATTERN) # huggingface demands that you wrap it in Regex!!
         tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
             pre_tokenizers.Split(pattern=gpt4_split_regex, behavior="isolated", invert=False),
-            pre_tokenizers.ByteLevel(add_prefix_space=False, use_regex=False)
+            pre_tokenizers.ByteLevel(add_prefix_space=False, use_regex=False),
         ])
         # Decoder: ByteLevel (it pairs together with the ByteLevel pre-tokenizer)
         tokenizer.decoder = decoders.ByteLevel()

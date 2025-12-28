@@ -34,7 +34,7 @@ class ARC(Task):
         user_message = render_mc(question, letters, choices)
         messages = [
             {"role": "user", "content": user_message},
-            {"role": "assistant", "content": answer_string}
+            {"role": "assistant", "content": answer_string},
         ]
         conversation = {
             "messages": messages,

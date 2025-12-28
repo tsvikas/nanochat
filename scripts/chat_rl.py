@@ -153,7 +153,7 @@ def run_gsm8k_eval(task, tokenizer, engine,
     num_samples=1,
     max_completion_tokens=256,
     temperature=0.0,
-    top_k=50
+    top_k=50,
 ):
     """
     Evaluates GSM8K task and returns a list of records of evaluation outcomes.
@@ -173,7 +173,7 @@ def run_gsm8k_eval(task, tokenizer, engine,
             num_samples=num_samples,
             max_tokens=max_completion_tokens,
             temperature=temperature,
-            top_k=top_k
+            top_k=top_k,
         )
         # Check each sample for correctness
         outcomes = []
@@ -182,7 +182,7 @@ def run_gsm8k_eval(task, tokenizer, engine,
             generated_text = tokenizer.decode(generated_tokens)
             is_correct = task.evaluate(conversation, generated_text)
             outcomes.append({
-                "is_correct": is_correct
+                "is_correct": is_correct,
             })
         # A bit bloated because I wanted to do more complex logging at one point.
         record = {
@@ -324,7 +324,7 @@ for step in range(num_steps):
             None, # note: we don't bother to save the optimizer state
             {
                 "model_config": model_config_kwargs,
-            }
+            },
         )
         print(f"✅ Saved model checkpoint to {checkpoint_dir}")
 

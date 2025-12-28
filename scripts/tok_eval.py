@@ -186,7 +186,7 @@ for tokenizer_name in ["gpt2", "gpt4", "ours"]:
         tokenizer_results[tokenizer_name][name] = {
             'bytes': len(encoded_bytes),
             'tokens': len(encoded),
-            'ratio': ratio
+            'ratio': ratio,
         }
 
 # ANSI color codes

@@ -27,7 +27,7 @@ def render_prompts_mc(item, continuation_delimiter, fewshot_examples=None):
     context = {
         'fewshot_examples': fewshot_examples,
         'continuation_delimiter': continuation_delimiter,
-        'item': item
+        'item': item,
     }
     prompts = [template.render(choice=choice, **context) for choice in item['choices']]
     return prompts
@@ -46,7 +46,7 @@ def render_prompts_schema(item, continuation_delimiter, fewshot_examples=None):
     context = {
         'fewshot_examples': fewshot_examples,
         'continuation_delimiter': continuation_delimiter,
-        'item': item
+        'item': item,
     }
     prompts = [template.render(context=context_option, **context)
                for context_option in item['context_options']]
@@ -70,7 +70,7 @@ def render_prompts_lm(item, continuation_delimiter, fewshot_examples=None):
     context = {
         'fewshot_examples': fewshot_examples,
         'continuation_delimiter': continuation_delimiter,
-        'item': item
+        'item': item,
     }
     # Return two prompts: without and with the continuation
     prompt_without = template.render(include_continuation=False, **context)
@@ -91,7 +91,7 @@ def find_common_length(token_sequences, direction='left'):
     min_len = min(len(seq) for seq in token_sequences)
     indices = {
         'left': range(min_len),
-        'right': range(-1, -min_len-1, -1)
+        'right': range(-1, -min_len-1, -1),
     }[direction]
     # Find the first position where the token sequences differ
     for i, idx in enumerate(indices):
@@ -155,7 +155,7 @@ def forward_model(model, input_ids):
     losses = torch.nn.functional.cross_entropy(
         outputs.view(batch_size * seq_len, -1),
         target_ids.view(batch_size * seq_len),
-        reduction='none'
+        reduction='none',
     ).view(batch_size, seq_len)
     # Set the last column to be nan because there is no autoregressive loss there
     losses[:, -1] = float('nan')

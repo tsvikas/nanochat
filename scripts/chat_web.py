@@ -79,7 +79,7 @@ args = parser.parse_args()
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    datefmt='%Y-%m-%d %H:%M:%S',
 )
 logger = logging.getLogger(__name__)
 
@@ -133,7 +133,7 @@ class WorkerPool:
                 device=device,
                 engine=engine,
                 tokenizer=tokenizer,
-                autocast_ctx=autocast_ctx
+                autocast_ctx=autocast_ctx,
             )
             self.workers.append(worker)
             await self.available_workers.put(worker)
@@ -166,7 +166,7 @@ def validate_chat_request(request: ChatRequest):
     if len(request.messages) > MAX_MESSAGES_PER_REQUEST:
         raise HTTPException(
             status_code=400,
-            detail=f"Too many messages. Maximum {MAX_MESSAGES_PER_REQUEST} messages allowed per request"
+            detail=f"Too many messages. Maximum {MAX_MESSAGES_PER_REQUEST} messages allowed per request",
         )
 
     # Check individual message lengths and total conversation length
@@ -179,14 +179,14 @@ def validate_chat_request(request: ChatRequest):
         if msg_length > MAX_MESSAGE_LENGTH:
             raise HTTPException(
                 status_code=400,
-                detail=f"Message {i} is too long. Maximum {MAX_MESSAGE_LENGTH} characters allowed per message"
+                detail=f"Message {i} is too long. Maximum {MAX_MESSAGE_LENGTH} characters allowed per message",
             )
         total_length += msg_length
 
     if total_length > MAX_TOTAL_CONVERSATION_LENGTH:
         raise HTTPException(
             status_code=400,
-            detail=f"Total conversation is too long. Maximum {MAX_TOTAL_CONVERSATION_LENGTH} characters allowed"
+            detail=f"Total conversation is too long. Maximum {MAX_TOTAL_CONVERSATION_LENGTH} characters allowed",
         )
 
     # Validate role values
@@ -194,7 +194,7 @@ def validate_chat_request(request: ChatRequest):
         if message.role not in ["user", "assistant"]:
             raise HTTPException(
                 status_code=400,
-                detail=f"Message {i} has invalid role. Must be 'user', 'assistant', or 'system'"
+                detail=f"Message {i} has invalid role. Must be 'user', 'assistant', or 'system'",
             )
 
     # Validate temperature
@@ -202,7 +202,7 @@ def validate_chat_request(request: ChatRequest):
         if not (MIN_TEMPERATURE <= request.temperature <= MAX_TEMPERATURE):
             raise HTTPException(
                 status_code=400,
-                detail=f"Temperature must be between {MIN_TEMPERATURE} and {MAX_TEMPERATURE}"
+                detail=f"Temperature must be between {MIN_TEMPERATURE} and {MAX_TEMPERATURE}",
             )
 
     # Validate top_k
@@ -210,7 +210,7 @@ def validate_chat_request(request: ChatRequest):
         if not (MIN_TOP_K <= request.top_k <= MAX_TOP_K):
             raise HTTPException(
                 status_code=400,
-                detail=f"top_k must be between {MIN_TOP_K} and {MAX_TOP_K}"
+                detail=f"top_k must be between {MIN_TOP_K} and {MAX_TOP_K}",
             )
 
     # Validate max_tokens
@@ -218,7 +218,7 @@ def validate_chat_request(request: ChatRequest):
         if not (MIN_MAX_TOKENS <= request.max_tokens <= MAX_MAX_TOKENS):
             raise HTTPException(
                 status_code=400,
-                detail=f"max_tokens must be between {MIN_MAX_TOKENS} and {MAX_MAX_TOKENS}"
+                detail=f"max_tokens must be between {MIN_MAX_TOKENS} and {MAX_MAX_TOKENS}",
             )
 
 @asynccontextmanager
@@ -248,7 +248,7 @@ async def root():
     # Replace the API_URL to use the same origin
     html_content = html_content.replace(
         "const API_URL = `http://${window.location.hostname}:8000`;",
-        "const API_URL = '';"
+        "const API_URL = '';",
     )
     return HTMLResponse(content=html_content)
 
@@ -264,7 +264,7 @@ async def generate_stream(
     tokens,
     temperature=None,
     max_new_tokens=None,
-    top_k=None
+    top_k=None,
 ) -> AsyncGenerator[str, None]:
     """Generate assistant response with streaming."""
     temperature = temperature if temperature is not None else args.temperature
@@ -286,7 +286,7 @@ async def generate_stream(
             max_tokens=max_new_tokens,
             temperature=temperature,
             top_k=top_k,
-            seed=random.randint(0, 2**31 - 1)
+            seed=random.randint(0, 2**31 - 1),
         ):
             token = token_column[0]
 
@@ -357,7 +357,7 @@ async def chat_completions(request: ChatRequest):
                     conversation_tokens,
                     temperature=request.temperature,
                     max_new_tokens=request.max_tokens,
-                    top_k=request.top_k
+                    top_k=request.top_k,
                 ):
                     # Accumulate response for logging
                     chunk_data = json.loads(chunk.replace("data: ", "").strip())
@@ -374,7 +374,7 @@ async def chat_completions(request: ChatRequest):
 
         return StreamingResponse(
             stream_and_release(),
-            media_type="text/event-stream"
+            media_type="text/event-stream",
         )
     except Exception as e:
         # Make sure to release worker even on error
@@ -389,7 +389,7 @@ async def health():
         "status": "ok",
         "ready": worker_pool is not None and len(worker_pool.workers) > 0,
         "num_gpus": worker_pool.num_gpus if worker_pool else 0,
-        "available_workers": worker_pool.available_workers.qsize() if worker_pool else 0
+        "available_workers": worker_pool.available_workers.qsize() if worker_pool else 0,
     }
 
 @app.get("/stats")
@@ -403,9 +403,9 @@ async def stats():
         "workers": [
             {
                 "gpu_id": w.gpu_id,
-                "device": str(w.device)
+                "device": str(w.device),
             } for w in worker_pool.workers
-        ]
+        ],
     }
 
 if __name__ == "__main__":
