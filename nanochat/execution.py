@@ -309,7 +309,7 @@ def execute_code(
     timeout: float = 5.0,  # 5 seconds default
     maximum_memory_bytes: Optional[int] = 256 * 1024 * 1024,  # 256MB default
 ) -> ExecutionResult:
-    """
+    r"""
     Execute Python code in a sandboxed environment.
 
     Args:
@@ -325,7 +325,7 @@ def execute_code(
         >>> result.success
         True
         >>> result.stdout
-        'hello world\\n'
+        'hello world\n'
 
     """
     manager = multiprocessing.Manager()
