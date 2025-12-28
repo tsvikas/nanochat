@@ -17,6 +17,7 @@ comes up with a better simple Python solution I am all ears.
 import os
 import sys
 from ast import literal_eval
+from pathlib import Path
 
 def print0(s="",**kwargs):
     ddp_rank = int(os.environ.get('RANK', 0))
@@ -27,11 +28,11 @@ for arg in sys.argv[1:]:
     if '=' not in arg:
         # assume it's the name of a config file
         assert not arg.startswith('--')
-        config_file = arg
+        config_file = Path(arg)
         print0(f"Overriding config with {config_file}:")
-        with open(config_file) as f:
-            print0(f.read())
-        exec(open(config_file).read())
+        config_content = config_file.read_text()
+        print0(config_content)
+        exec(config_content)
     else:
         # assume it's a --key=value argument
         assert arg.startswith('--')
