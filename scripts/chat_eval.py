@@ -9,20 +9,25 @@ torchrun --nproc_per_node=8 -m scripts.chat_eval -- -a ARC-Easy
 """
 
 import argparse
-from functools import partial
 from contextlib import nullcontext
+from functools import partial
 
 import torch
 import torch.distributed as dist
 
-from nanochat.common import compute_init, compute_cleanup, get_dist_info, print0, autodetect_device_type
 from nanochat.checkpoint_manager import load_model
+from nanochat.common import (
+    autodetect_device_type,
+    compute_cleanup,
+    compute_init,
+    get_dist_info,
+    print0,
+)
 from nanochat.engine import Engine
-
-from tasks.humaneval import HumanEval
-from tasks.mmlu import MMLU
 from tasks.arc import ARC
 from tasks.gsm8k import GSM8K
+from tasks.humaneval import HumanEval
+from tasks.mmlu import MMLU
 from tasks.spellingbee import SpellingBee
 
 # -----------------------------------------------------------------------------

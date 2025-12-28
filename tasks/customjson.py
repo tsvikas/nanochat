@@ -5,7 +5,9 @@ Each line in the JSONL file should be a JSON array of messages.
 
 import json
 from pathlib import Path
+
 from tasks.common import Task
+
 
 class CustomJSON(Task):
     """

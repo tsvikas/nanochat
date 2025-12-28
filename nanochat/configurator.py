@@ -19,6 +19,7 @@ import sys
 from ast import literal_eval
 from pathlib import Path
 
+
 def print0(s="",**kwargs):
     ddp_rank = int(os.environ.get('RANK', 0))
     if ddp_rank == 0:

@@ -2,14 +2,16 @@
 Common utilities for nanochat.
 """
 
+import logging
 import os
 import re
-import logging
 import urllib.request
 from pathlib import Path
+
 import torch
 import torch.distributed as dist
 from filelock import FileLock
+
 
 class ColoredFormatter(logging.Formatter):
     """Custom formatter that adds colors to log messages."""
