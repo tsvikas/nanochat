@@ -425,7 +425,7 @@ if __name__ == "__main__":
     model, tokenizer, meta = load_model("base", device, phase="eval")
     bos_token_id = tokenizer.get_bos_token_id()
     # common hyperparameters
-    kwargs = dict(max_tokens=64, temperature=0.0)
+    kwargs = {"max_tokens": 64, "temperature": 0.0}
     # set the starting prompt
     prompt_tokens = tokenizer.encode(
         "The chemical formula of water is", prepend=bos_token_id

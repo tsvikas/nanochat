@@ -276,14 +276,18 @@ class GPT(nn.Module):
             f"Scaling the LR for the AdamW parameters ∝1/√({model_dim}/768) = {dmodel_lr_scale:.6f}"
         )
         adam_groups = [
-            dict(params=lm_head_params, lr=unembedding_lr * dmodel_lr_scale),
-            dict(params=embedding_params, lr=embedding_lr * dmodel_lr_scale),
+            {"params": lm_head_params, "lr": unembedding_lr * dmodel_lr_scale},
+            {"params": embedding_params, "lr": embedding_lr * dmodel_lr_scale},
         ]
-        adamw_kwargs = dict(betas=(0.8, 0.95), eps=1e-10, weight_decay=weight_decay)
+        adamw_kwargs = {
+            "betas": (0.8, 0.95),
+            "eps": 1e-10,
+            "weight_decay": weight_decay,
+        }
         AdamWFactory = DistAdamW if ddp else partial(torch.optim.AdamW, fused=True)
         adamw_optimizer = AdamWFactory(adam_groups, **adamw_kwargs)
         # Create the Muon optimizer for the linear layers
-        muon_kwargs = dict(lr=matrix_lr, momentum=0.95)
+        muon_kwargs = {"lr": matrix_lr, "momentum": 0.95}
         MuonFactory = DistMuon if ddp else Muon
         muon_optimizer = MuonFactory(matrix_params, **muon_kwargs)
         # Combine them the two optimizers into one list

@@ -67,11 +67,16 @@ class Muon(torch.optim.Optimizer):
     """
 
     def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):
-        defaults = dict(lr=lr, momentum=momentum, nesterov=nesterov, ns_steps=ns_steps)
+        defaults = {
+            "lr": lr,
+            "momentum": momentum,
+            "nesterov": nesterov,
+            "ns_steps": ns_steps,
+        }
         params: list[Tensor] = [*params]
         param_groups = []
         for size in {p.numel() for p in params}:
-            group = dict(params=[p for p in params if p.numel() == size])
+            group = {"params": [p for p in params if p.numel() == size]}
             param_groups.append(group)
         super().__init__(param_groups, defaults)
 
@@ -123,7 +128,12 @@ class DistMuon(torch.optim.Optimizer):
         nesterov: bool = True,
         ns_steps: int = 5,
     ):
-        defaults = dict(lr=lr, momentum=momentum, nesterov=nesterov, ns_steps=ns_steps)
+        defaults = {
+            "lr": lr,
+            "momentum": momentum,
+            "nesterov": nesterov,
+            "ns_steps": ns_steps,
+        }
         params = list(params)
         assert all(p.ndim == 2 for p in params), "Muon expects 2D parameters only"
         rank = dist.get_rank()
@@ -142,7 +152,10 @@ class DistMuon(torch.optim.Optimizer):
                     f"Muon: Grouping {len(group_params)} params of shape {shape}, device {device}, dtype {dtype}"
                 )
             param_groups.append(
-                dict(params=group_params, zero_buffer=torch.zeros_like(group_params[0]))
+                {
+                    "params": group_params,
+                    "zero_buffer": torch.zeros_like(group_params[0]),
+                }
             )
         super().__init__(param_groups, defaults)
 
