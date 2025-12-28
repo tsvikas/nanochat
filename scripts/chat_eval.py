@@ -166,7 +166,7 @@ def run_categorical_eval(task_object, tokenizer, model, batch_size, max_problems
             letters = conversation["letters"]
             letter_ids = []
             for letter in letters:
-                if not letter in letter_to_id_cache:
+                if letter not in letter_to_id_cache:
                     encoded_letter = tokenizer.encode(letter)
                     assert len(encoded_letter) == 1, (
                         "Each letter must be a single token"
