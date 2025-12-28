@@ -103,7 +103,10 @@ parser.add_argument(
     help="Device type for evaluation: cuda|cpu|mps. empty => autodetect",
 )
 parser.add_argument(
-    "--host", type=str, default="0.0.0.0", help="Host to bind the server to"
+    "--host",
+    type=str,
+    default="0.0.0.0",  # noqa: S104
+    help="Host to bind the server to",
 )
 args = parser.parse_args()
 

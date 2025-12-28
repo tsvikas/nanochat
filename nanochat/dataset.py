@@ -92,7 +92,7 @@ def download_single_file(index) -> bool:
             # Move temp file to final location
             temp_path.rename(filepath)
 
-        except (OSError, requests.RequestException) as e:
+        except (OSError, requests.RequestException) as e:  # noqa: PERF203
             print(f"Attempt {attempt}/{max_attempts} failed for {filename}: {e}")
             # Clean up any partial files
             for path in [filepath.with_name(f"{filepath.name}.tmp"), filepath]:

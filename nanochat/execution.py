@@ -66,7 +66,7 @@ class ExecutionResult:
 
 @contextlib.contextmanager
 def time_limit(seconds: float):
-    def signal_handler(signum, frame) -> NoReturn:
+    def signal_handler(signum, frame) -> NoReturn:  # noqa: ARG001
         raise TimeoutException("Timed out!")
 
     signal.setitimer(signal.ITIMER_REAL, seconds)
@@ -97,7 +97,7 @@ def create_tempdir():
         yield dirname
 
 
-class TimeoutException(Exception):
+class TimeoutException(Exception):  # noqa: N818
     pass
 
 
@@ -118,7 +118,7 @@ class WriteOnlyStringIO(io.StringIO):
         return False
 
 
-class redirect_stdin(contextlib._RedirectStream):  # type: ignore
+class redirect_stdin(contextlib._RedirectStream):  # type: ignore  # noqa: N801, PGH003, SLF001
     _stream = "stdin"
 
 
@@ -209,7 +209,7 @@ def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
 
     import subprocess  # noqa: PLC0415
 
-    subprocess.Popen = None  # type: ignore
+    subprocess.Popen = None  # type: ignore  # noqa: PGH003
 
     __builtins__["help"] = None
 
@@ -296,7 +296,7 @@ def _unsafe_execute(
                 }
             )
 
-        except BaseException as e:
+        except BaseException as e:  # noqa: BLE001
             result_dict.update(
                 {
                     "error": f"{type(e).__name__}: {e}",

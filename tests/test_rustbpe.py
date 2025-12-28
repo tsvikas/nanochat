@@ -224,7 +224,7 @@ class FastRegexTokenizer:
             vocab[idx] = special.encode("utf-8")
         return vocab
 
-    def train(self, text, vocab_size, *, verbose=False) -> None:
+    def train(self, text, vocab_size, *, verbose=False) -> None:  # noqa: ARG002
         """
         A number of optimizations are introduced:
         - delete function call overhead by inlining functions

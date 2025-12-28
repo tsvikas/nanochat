@@ -19,7 +19,7 @@ from contextlib import contextmanager, nullcontext
 from typing import NoReturn
 
 import torch
-import torch.nn.functional as F
+import torch.nn.functional as F  # noqa: N812
 
 from nanochat.checkpoint_manager import load_model
 from nanochat.common import autodetect_device_type, compute_init
@@ -29,8 +29,8 @@ from nanochat.common import autodetect_device_type, compute_init
 # Calculator tool helpers
 @contextmanager
 def timeout(duration, formula):
-    def timeout_handler(signum, frame) -> NoReturn:
-        raise Exception(f"'{formula}': timed out after {duration} seconds")
+    def timeout_handler(signum, frame) -> NoReturn:  # noqa: ARG001
+        raise Exception(f"'{formula}': timed out after {duration} seconds")  # noqa: TRY002
 
     signal.signal(signal.SIGALRM, timeout_handler)
     signal.alarm(duration)
@@ -42,8 +42,8 @@ def eval_with_timeout(formula, max_time=3):
     try:
         with timeout(max_time, formula), warnings.catch_warnings():
             warnings.simplefilter("ignore", SyntaxWarning)
-            return eval(formula, {"__builtins__": {}}, {})
-    except Exception:
+            return eval(formula, {"__builtins__": {}}, {})  # noqa: S307
+    except Exception:  # noqa: BLE001
         signal.alarm(0)
         # print(f"Warning: Failed to eval {formula}, exception: {e}") # it's ok ignore wrong calculator usage
         return None

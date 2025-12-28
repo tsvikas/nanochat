@@ -113,7 +113,7 @@ class HuggingFaceTokenizer:
         special_tokens = [w.content for w in special_tokens_map.values()]
         return special_tokens
 
-    def id_to_token(self, id):
+    def id_to_token(self, id):  # noqa: A002
         return self.tokenizer.id_to_token(id)
 
     def _encode_one(self, text, prepend=None, append=None):
@@ -207,7 +207,7 @@ class RustBPETokenizer:
     def from_directory(cls, tokenizer_dir):
         pickle_path = tokenizer_dir / "tokenizer.pkl"
         with pickle_path.open("rb") as f:
-            enc = pickle.load(f)
+            enc = pickle.load(f)  # noqa: S301
         return cls(enc, "<|bos|>")
 
     @classmethod
@@ -226,10 +226,10 @@ class RustBPETokenizer:
     def get_special_tokens(self):
         return self.enc.special_tokens_set
 
-    def id_to_token(self, id):
+    def id_to_token(self, id):  # noqa: A002
         return self.enc.decode([id])
 
-    @lru_cache(maxsize=32)
+    @lru_cache(maxsize=32)  # noqa: B019
     def encode_special(self, text):
         return self.enc.encode_single_token(text)
 

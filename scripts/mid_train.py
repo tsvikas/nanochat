@@ -180,7 +180,7 @@ approx_progress = 0.0  # will go from 0 to 1 over the course of the epoch
 
 
 def mid_data_generator(split):
-    global last_step, approx_progress
+    global last_step, approx_progress  # noqa: PLW0603
     assert split in {"train", "val"}, "split must be 'train' or 'val'"
     dataset = train_dataset if split == "train" else val_dataset
     dataset_size = len(dataset)

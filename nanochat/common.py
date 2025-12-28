@@ -100,7 +100,7 @@ def download_file_with_lock(url, filename, postprocess_fn=None):
 
         # Download the content as bytes
         print(f"Downloading {url}...")
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url) as response:  # noqa: S310
             content = response.read()  # bytes
 
         # Write to local file

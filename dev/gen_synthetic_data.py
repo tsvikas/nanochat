@@ -381,7 +381,7 @@ with ThreadPoolExecutor(max_workers=num_workers) as executor:
             completed_count += 1
             print(f"✓ Saved conversation {completed_count}/{num_conversations}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001, PERF203
             error_count += 1
             print(f"✗ Error generating conversation: {e}")
 

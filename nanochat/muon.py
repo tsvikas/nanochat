@@ -9,7 +9,7 @@ from torch import Tensor
 
 
 @torch.compile
-def zeropower_via_newtonschulz5(G: Tensor, steps: int) -> Tensor:
+def zeropower_via_newtonschulz5(G: Tensor, steps: int) -> Tensor:  # noqa: N803
     """
     Newton-Schulz iteration to compute the zeroth power / orthogonalization of G. We opt to use a
     quintic iteration whose coefficients are selected to maximize the slope at zero. For the purpose
@@ -66,7 +66,7 @@ class Muon(torch.optim.Optimizer):
 
     """
 
-    def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):
+    def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):  # noqa: FBT002
         defaults = {
             "lr": lr,
             "momentum": momentum,
@@ -125,7 +125,7 @@ class DistMuon(torch.optim.Optimizer):
         params,
         lr: float = 0.02,
         momentum: float = 0.95,
-        nesterov: bool = True,
+        nesterov: bool = True,  # noqa: FBT001, FBT002
         ns_steps: int = 5,
     ):
         defaults = {

@@ -44,7 +44,7 @@ class CustomJSON(Task):
         else:
             with self.filepath.open("r", encoding="utf-8") as f:
                 for line in f:
-                    line = line.strip()
+                    line = line.strip()  # noqa: PLW2901
                     if not line:  # skip empty lines
                         continue
                     messages = json.loads(line)

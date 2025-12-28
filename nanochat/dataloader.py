@@ -9,8 +9,8 @@ from nanochat.tokenizer import get_tokenizer
 
 
 def tokenizing_distributed_data_loader_with_state(
-    B,
-    T,
+    B,  # noqa: N803
+    T,  # noqa: N803
     split,
     tokenizer_threads=4,
     tokenizer_batch_size=128,

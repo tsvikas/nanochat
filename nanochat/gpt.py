@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from functools import partial
 
 import torch
-import torch.nn.functional as F
+import torch.nn.functional as F  # noqa: N812
 from torch import nn
 
 from nanochat.adamw import DistAdamW
@@ -249,7 +249,7 @@ class GPT(nn.Module):
         """Return the estimated FLOPs per token for the model. Ref: https://arxiv.org/abs/2204.02311."""
         nparams = sum(p.numel() for p in self.parameters())
         nparams_embedding = self.transformer.wte.weight.numel()
-        l, h, q, t = (
+        l, h, q, t = (  # noqa: E741
             self.config.n_layer,
             self.config.n_head,
             self.config.n_embd // self.config.n_head,

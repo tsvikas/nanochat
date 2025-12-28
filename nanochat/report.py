@@ -16,13 +16,13 @@ import torch
 def run_command(cmd):
     """Run a shell command and return output, or None if it fails."""
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S602
             cmd, check=False, shell=True, capture_output=True, text=True, timeout=5
         )
         if result.returncode == 0:
             return result.stdout.strip()
-        return None
-    except Exception:
+        return None  # noqa: TRY300
+    except Exception:  # noqa: BLE001
         return None
 
 
@@ -242,7 +242,7 @@ def extract_timestamp(content, prefix):
             time_str = line.split(":", 1)[1].strip()
             try:
                 return datetime.datetime.fromisoformat(time_str)
-            except Exception:
+            except Exception:  # noqa: BLE001, S110
                 pass
     return None
 
