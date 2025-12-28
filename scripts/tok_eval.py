@@ -1,6 +1,4 @@
-"""
-Evaluate compression ratio of the tokenizer.
-"""
+"""Evaluate compression ratio of the tokenizer."""
 
 from nanochat.dataset import parquets_iter_batched
 from nanochat.tokenizer import RustBPETokenizer, get_tokenizer

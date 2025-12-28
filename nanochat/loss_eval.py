@@ -1,6 +1,4 @@
-"""
-A number of functions that help with evaluating a base model.
-"""
+"""A number of functions that help with evaluating a base model."""
 
 import math
 

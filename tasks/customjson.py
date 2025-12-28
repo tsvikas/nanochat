@@ -13,7 +13,7 @@ class CustomJSON(Task):
     """
     Load conversations from a JSONL file.
     Each line should be a JSON array of message objects with 'role' and 'content' fields.
-    Example line: [{"role":"user","content":"Hi"},{"role":"assistant","content":"Hello"}]
+    Example line: [{"role":"user","content":"Hi"},{"role":"assistant","content":"Hello"}].
     """
 
     def __init__(self, filepath: Path, **kwargs):

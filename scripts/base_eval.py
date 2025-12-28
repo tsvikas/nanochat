@@ -58,7 +58,7 @@ def place_eval_bundle(file_path):
 def evaluate_model(model, tokenizer, device, max_per_task=-1):
     """
     Evaluate a base model on the CORE benchmark.
-    - max_per_task: crop the data to this many examples per task for testing (-1 = disable)
+    - max_per_task: crop the data to this many examples per task for testing (-1 = disable).
     """
     # Load config and task metadata
     base_dir = get_base_dir()
@@ -141,7 +141,7 @@ def evaluate_model(model, tokenizer, device, max_per_task=-1):
 
 
 class ModelWrapper:
-    """Lightweight wrapper for a HuggingFace model"""
+    """Lightweight wrapper for a HuggingFace model."""
 
     def __init__(self, model, max_seq_len=None):
         self.model = model

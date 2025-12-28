@@ -1,6 +1,4 @@
-"""
-Utilities for generating training report cards. More messy code than usual, will fix.
-"""
+"""Utilities for generating training report cards. More messy code than usual, will fix."""
 
 import datetime
 import os
@@ -94,7 +92,6 @@ def get_system_info():
 
 def estimate_cost(gpu_info, runtime_hours=None):
     """Estimate training cost based on GPU type and runtime."""
-
     # Rough pricing, from Lambda Cloud
     default_rate = 2.0
     gpu_hourly_rates = {
@@ -225,7 +222,7 @@ chat_metrics = ["ARC-Easy", "ARC-Challenge", "MMLU", "GSM8K", "HumanEval", "Chat
 
 
 def extract(section, keys):
-    """simple def to extract a single key from a section"""
+    """Simple def to extract a single key from a section."""
     if not isinstance(keys, list):
         keys = [keys]  # convenience
     out = {}

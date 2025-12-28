@@ -1,6 +1,6 @@
 """
 The ARC dataset from Allen AI.
-https://huggingface.co/datasets/allenai/ai2_arc
+https://huggingface.co/datasets/allenai/ai2_arc.
 """
 
 from datasets import load_dataset

@@ -9,6 +9,7 @@ Notes:
 - The engine knows nothing about tokenization, it's purely token id sequences.
 
 The whole thing is made as efficient as possible.
+
 """
 
 import signal
@@ -51,7 +52,7 @@ def eval_with_timeout(formula, max_time=3):
 def use_calculator(expr):
     """
     Evaluate a Python expression safely.
-    Supports both math expressions and string operations like .count()
+    Supports both math expressions and string operations like .count().
     """
     # Remove commas from numbers
     expr = expr.replace(",", "")

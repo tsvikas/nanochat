@@ -11,7 +11,7 @@ from torch import Tensor
 class DistAdamW(torch.optim.Optimizer):
     """
     Distributed AdamW optimizer.
-    In the style of ZeRO-2, i.e. sharded optimizer states and gradient reduction
+    In the style of ZeRO-2, i.e. sharded optimizer states and gradient reduction.
     """
 
     def __init__(

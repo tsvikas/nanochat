@@ -1,6 +1,6 @@
 """
 The MMLU dataset.
-https://huggingface.co/datasets/cais/mmlu
+https://huggingface.co/datasets/cais/mmlu.
 """
 
 from datasets import load_dataset

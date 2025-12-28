@@ -1,6 +1,4 @@
-"""
-Utilities for saving and loading model/optim/state checkpoints.
-"""
+"""Utilities for saving and loading model/optim/state checkpoints."""
 
 import json
 import logging
@@ -64,10 +62,12 @@ def load_checkpoint(checkpoint_dir, step, device, load_optimizer=False, rank=0):
 def build_model(checkpoint_dir, step, device, phase):
     """
     A bunch of repetitive code to build a model from a given checkpoint.
+
     Returns:
     - base model - uncompiled, not wrapped in DDP
     - tokenizer
     - meta data saved during base model training
+
     """
     assert phase in ["train", "eval"], f"Invalid phase: {phase}"
     model_data, optimizer_data, meta_data = load_checkpoint(

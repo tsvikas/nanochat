@@ -44,7 +44,7 @@ def zeropower_via_newtonschulz5(G: Tensor, steps: int) -> Tensor:
 
 class Muon(torch.optim.Optimizer):
     """
-    Muon - MomentUm Orthogonalized by Newton-schulz
+    Muon - MomentUm Orthogonalized by Newton-schulz.
 
     https://kellerjordan.github.io/posts/muon/
 
@@ -63,6 +63,7 @@ class Muon(torch.optim.Optimizer):
         momentum: The momentum used by the internal SGD.
         nesterov: Whether to use Nesterov-style momentum in the internal SGD. (recommended)
         ns_steps: The number of Newton-Schulz iteration steps to use.
+
     """
 
     def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):
@@ -96,7 +97,7 @@ class DistMuon(torch.optim.Optimizer):
     Muon: SGD-momentum + (optional) Nesterov, then orthogonalize the 2D update via Newton–Schulz,
     finally apply aspect-ratio scaled step. Performs its own distributed synchronization:
       - reduce_scatter(AVG) for gradient averaging
-      - all_gather to replicate updated weights
+      - all_gather to replicate updated weights.
 
     Notes:
       * Designed for 2D parameters (e.g., linear/conv kernels reshaped to 2D). Do not use for 0D/1D
@@ -111,6 +112,7 @@ class DistMuon(torch.optim.Optimizer):
         momentum: momentum coefficient in [0,1)
         nesterov: if True, Nesterov-style update (g <- lerp(g, buf, momentum)); else use buf
         ns_steps: number of Newton–Schulz iterations for the orthogonalization
+
     """
 
     def __init__(

@@ -1,6 +1,4 @@
-"""
-Common utilities for nanochat.
-"""
+"""Common utilities for nanochat."""
 
 import logging
 import os
@@ -166,7 +164,6 @@ def autodetect_device_type():
 
 def compute_init(device_type="cuda"):  # cuda|cpu|mps
     """Basic initialization that we keep doing over and over, so make common."""
-
     assert device_type in ["cuda", "mps", "cpu"], "Invalid device type atm"
     if device_type == "cuda":
         assert torch.cuda.is_available(), (
@@ -209,13 +206,13 @@ def compute_init(device_type="cuda"):  # cuda|cpu|mps
 
 
 def compute_cleanup():
-    """Companion function to compute_init, to clean things up before script exit"""
+    """Companion function to compute_init, to clean things up before script exit."""
     if is_ddp():
         dist.destroy_process_group()
 
 
 class DummyWandb:
-    """Useful if we wish to not use wandb but have all the same signatures"""
+    """Useful if we wish to not use wandb but have all the same signatures."""
 
     def __init__(self):
         pass

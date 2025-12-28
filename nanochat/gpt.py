@@ -8,7 +8,7 @@ Notable features:
 - norm after token embedding
 - no learnable params in rmsnorm
 - no bias in linear layers
-- Group-Query Attention (GQA) support for more efficient inference
+- Group-Query Attention (GQA) support for more efficient inference.
 """
 
 import math
@@ -245,7 +245,7 @@ class GPT(nn.Module):
         return self.transformer.wte.weight.device
 
     def estimate_flops(self):
-        """Return the estimated FLOPs per token for the model. Ref: https://arxiv.org/abs/2204.02311"""
+        """Return the estimated FLOPs per token for the model. Ref: https://arxiv.org/abs/2204.02311."""
         nparams = sum(p.numel() for p in self.parameters())
         nparams_embedding = self.transformer.wte.weight.numel()
         l, h, q, t = (
@@ -347,7 +347,7 @@ class GPT(nn.Module):
         Naive autoregressive streaming inference.
         To make it super simple, let's assume:
         - batch size is 1
-        - ids and the yielded tokens are simple Python lists and ints
+        - ids and the yielded tokens are simple Python lists and ints.
         """
         assert isinstance(tokens, list)
         device = self.get_device()

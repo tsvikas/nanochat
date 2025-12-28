@@ -47,7 +47,7 @@ def text_iterator():
     """
     1) Flatten the batches into a single iterator
     2) Crop every document to args.doc_cap characters
-    3) Break when we've seen args.max_chars characters
+    3) Break when we've seen args.max_chars characters.
     """
     nchars = 0
     for batch in parquets_iter_batched(split="train"):

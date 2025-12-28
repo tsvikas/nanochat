@@ -1,7 +1,7 @@
 """
 Sandboxed execution utilities for running Python code that comes out of an LLM.
 Adapted from OpenAI HumanEval code:
-https://github.com/openai/human-eval/blob/master/human_eval/execution.py
+https://github.com/openai/human-eval/blob/master/human_eval/execution.py.
 
 What is covered:
 - Each execution runs in its own process (can be killed if it hangs or crashes)
@@ -101,7 +101,7 @@ class TimeoutException(Exception):
 
 
 class WriteOnlyStringIO(io.StringIO):
-    """StringIO that throws an exception when it's read from"""
+    """StringIO that throws an exception when it's read from."""
 
     def read(self, *args, **kwargs):
         raise IOError
@@ -138,15 +138,15 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
     """
     This disables various destructive functions and prevents the generated code
     from interfering with the test (e.g. fork bomb, killing other processes,
-    removing filesystem files, etc.)
+    removing filesystem files, etc.).
 
-    WARNING
+    Warning:
     This function is NOT a security sandbox. Untrusted code, including, model-
     generated code, should not be blindly executed outside of one. See the
     Codex paper for more information about OpenAI's code sandbox, and proceed
     with caution.
-    """
 
+    """
     if platform.uname().system != "Darwin":
         # These resource limit calls seem to fail on macOS (Darwin), skip?
         import resource
@@ -309,7 +309,7 @@ def execute_code(
     timeout: float = 5.0,  # 5 seconds default
     maximum_memory_bytes: Optional[int] = 256 * 1024 * 1024,  # 256MB default
 ) -> ExecutionResult:
-    """
+    r"""
     Execute Python code in a sandboxed environment.
 
     Args:
@@ -325,9 +325,9 @@ def execute_code(
         >>> result.success
         True
         >>> result.stdout
-        'hello world\\n'
-    """
+        'hello world\n'
 
+    """
     manager = multiprocessing.Manager()
     result_dict = manager.dict()
 

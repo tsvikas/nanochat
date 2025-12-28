@@ -326,7 +326,6 @@ def generate_conversation(idx: int):
     Generate a single conversation using the OpenRouter API.
     Returns a list of message dicts with 'role' and 'content' keys.
     """
-
     # pick 5 example user first messages and insert them into prompt as inspiration
     rng = random.Random(idx)  # use idx as seed to the rng
     user_first_prompt = "\n".join(rng.choice(user_first_prompts) for _ in range(5))
