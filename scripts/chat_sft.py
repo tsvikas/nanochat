@@ -283,7 +283,7 @@ for step in range(num_iterations):
     num_tokens = torch.tensor(
         0, device=device
     )  # the number of "active" tokens of supervision seen
-    for micro_step in range(grad_accum_steps):
+    for _micro_step in range(grad_accum_steps):
         train_inputs, train_targets = next(train_loader)
         with autocast_ctx:
             loss = model(train_inputs, train_targets)

@@ -214,7 +214,7 @@ def print_comparison(baseline_name, baseline_results, ours_results, all_text) ->
     )
     print("-" * 95)
 
-    for name, text in all_text:
+    for name, _text in all_text:
         baseline_data = baseline_results[name]
         ours_data = ours_results[name]
 

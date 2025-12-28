@@ -454,7 +454,7 @@ if __name__ == "__main__":
     torch.cuda.synchronize()
     t0 = time.time()
     with autocast_ctx:
-        for token_column, token_masks in stream:
+        for token_column, _token_masks in stream:
             token = token_column[0]  # only print out the first row
             generated_tokens.append(token)
             chunk = tokenizer.decode([token])

@@ -404,7 +404,7 @@ while True:
     # evaluate the gradient
     synchronize()
     t0 = time.time()
-    for micro_step in range(grad_accum_steps):
+    for _micro_step in range(grad_accum_steps):
         with autocast_ctx:
             loss = model(x, y)
         train_loss = loss.detach()  # for logging

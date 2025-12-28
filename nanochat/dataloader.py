@@ -129,7 +129,7 @@ def tokenizing_distributed_data_loader_with_state(
 
 def tokenizing_distributed_data_loader(*args, **kwargs):
     # helper function that only emits the inputs/targets and not the state_dict
-    for inputs, targets, state_dict in tokenizing_distributed_data_loader_with_state(
+    for inputs, targets, _state_dict in tokenizing_distributed_data_loader_with_state(
         *args, **kwargs
     ):
         yield inputs, targets
