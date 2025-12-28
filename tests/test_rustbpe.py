@@ -565,9 +565,8 @@ def test_correctness(enwik8_small) -> None:
         perm = {}
         for x, y in zip(ids1, ids2):
             if x < 256:
-                if x in perm:
-                    if perm[x] != y:
-                        return False
+                if x in perm and perm[x] != y:
+                    return False
                 perm[x] = y
             if x >= 256 and x != y:
                 return False

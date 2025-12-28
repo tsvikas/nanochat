@@ -255,12 +255,11 @@ def validate_chat_request(request: ChatRequest) -> None:
             )
 
     # Validate top_k
-    if request.top_k is not None:
-        if not (MIN_TOP_K <= request.top_k <= MAX_TOP_K):
-            raise HTTPException(
-                status_code=400,
-                detail=f"top_k must be between {MIN_TOP_K} and {MAX_TOP_K}",
-            )
+    if request.top_k is not None and not (MIN_TOP_K <= request.top_k <= MAX_TOP_K):
+        raise HTTPException(
+            status_code=400,
+            detail=f"top_k must be between {MIN_TOP_K} and {MAX_TOP_K}",
+        )
 
     # Validate max_tokens
     if request.max_tokens is not None:
