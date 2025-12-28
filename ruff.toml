@@ -1,0 +1,5 @@
+[lint]
+select = [
+  "F401",  # unused-import
+  "I001",  # unsorted-imports
+]
