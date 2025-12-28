@@ -687,7 +687,7 @@ def test_interface(enwik8_small) -> None:
     # append/prepend functionality
     ids_special = tok.encode(encode_text, prepend="<|bos|>", append="<|bos|>")
     bos_token_id = tok.encode_special("<|bos|>")
-    assert ids_special == [bos_token_id] + ids + [bos_token_id], (
+    assert ids_special == [bos_token_id, *ids, bos_token_id], (
         "Special tokens not correctly added"
     )
     print("✅ append/prepend OK")
