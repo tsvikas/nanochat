@@ -285,9 +285,7 @@ class Engine:
         )
         ids = torch.tensor([tokens], dtype=torch.long, device=device)
         logits = self.model.forward(ids, kv_cache=kv_cache_prefill)
-        logits = logits[:, -1, :]
-        next_ids = sample_next_token(logits, rng, temperature, top_k)  # (B, 1)
-        sampled_tokens = next_ids[:, 0].tolist()
+        logits = logits[:, -1, :].expand(num_samples, -1)  # (num_samples, vocab_size)
 
         # 2) Replicate the KV cache for each sample/row
         kv_length_hint = (
@@ -308,7 +306,6 @@ class Engine:
 
         # 4) Main generation loop
         num_generated = 0
-        first_iteration = True
         while True:
             # Stop condition: we've reached max tokens
             if max_tokens is not None and num_generated >= max_tokens:
@@ -317,22 +314,9 @@ class Engine:
             if all(state.completed for state in row_states):
                 break
 
-            # Get sampled tokens - either from prefill or from forward pass
-            if first_iteration:
-                # Use the tokens we already sampled from prefill
-                sampled_tokens = [
-                    sampled_tokens[0]
-                ] * num_samples  # Broadcast first token to all rows
-                # TODO: we should sample a token for each row instead of broadcasting
-                first_iteration = False
-            else:
-                # Forward the model and get the next token for each row
-                logits = self.model.forward(
-                    ids, kv_cache=kv_cache_decode
-                )  # (B, T, vocab_size)
-                logits = logits[:, -1, :]  # (B, vocab_size) at last time step
-                next_ids = sample_next_token(logits, rng, temperature, top_k)  # (B, 1)
-                sampled_tokens = next_ids[:, 0].tolist()
+            # Sample the next token for each row
+            next_ids = sample_next_token(logits, rng, temperature, top_k)  # (B, 1)
+            sampled_tokens = next_ids[:, 0].tolist()
 
             # Process each row: choose the next token, update state, optional tool use
             token_column = []  # contains the next token id along each row
@@ -375,10 +359,14 @@ class Engine:
             # Yield the token column
             yield token_column, token_masks
             num_generated += 1
-            # Prepare ids for next iteration
+
+            # Prepare logits for next iteration
             ids = torch.tensor(token_column, dtype=torch.long, device=device).unsqueeze(
                 1
             )
+            logits = self.model.forward(ids, kv_cache=kv_cache_decode)[
+                :, -1, :
+            ]  # (B, vocab_size)
 
     def generate_batch(self, tokens, num_samples=1, **kwargs):
         """

@@ -11,7 +11,7 @@ torchrun --standalone --nproc_per_node=8 -m scripts.chat_sft
 
 import os
 
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 
 from contextlib import nullcontext
 from pathlib import Path
@@ -331,8 +331,8 @@ for step in range(num_iterations):
 if master_process:
     base_dir = get_base_dir()
     depth = model.config.n_layer
-    model_tag = f"d{depth}"  # base the model tag on the depth of the base model
-    checkpoint_dir = base_dir / "chatsft_checkpoints" / model_tag
+    output_dirname = model_tag if model_tag else f"d{depth}"  # e.g. d12
+    checkpoint_dir = base_dir / "chatsft_checkpoints" / output_dirname
     model_config_kwargs = (
         model.config.__dict__
     )  # slightly naughty, abusing the simplicity of GPTConfig, TODO nicer
