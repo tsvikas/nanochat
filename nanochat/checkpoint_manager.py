@@ -62,6 +62,7 @@ def load_checkpoint(checkpoint_dir, step, device, load_optimizer=False, rank=0):
 def build_model(checkpoint_dir, step, device, phase):
     """
     A bunch of repetitive code to build a model from a given checkpoint.
+
     Returns:
     - base model - uncompiled, not wrapped in DDP
     - tokenizer
