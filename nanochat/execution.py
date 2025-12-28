@@ -104,13 +104,13 @@ class WriteOnlyStringIO(io.StringIO):
     """StringIO that throws an exception when it's read from."""
 
     def read(self, *args, **kwargs):
-        raise IOError
+        raise OSError
 
     def readline(self, *args, **kwargs):
-        raise IOError
+        raise OSError
 
     def readlines(self, *args, **kwargs):
-        raise IOError
+        raise OSError
 
     def readable(self, *args, **kwargs):
         """Returns True if the IO object can be read."""

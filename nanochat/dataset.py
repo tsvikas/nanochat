@@ -91,7 +91,7 @@ def download_single_file(index):
             print(f"Successfully downloaded {filename}")
             return True
 
-        except (requests.RequestException, IOError) as e:
+        except (OSError, requests.RequestException) as e:
             print(f"Attempt {attempt}/{max_attempts} failed for {filename}: {e}")
             # Clean up any partial files
             for path in [filepath.with_name(f"{filepath.name}.tmp"), filepath]:
