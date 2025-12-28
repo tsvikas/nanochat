@@ -18,6 +18,7 @@ python -m pytest tests/test_rustbpe.py -v -s
 -v is verbose, -s is show prints
 """
 
+import itertools
 import time
 from collections import Counter, defaultdict
 
@@ -40,7 +41,7 @@ def get_stats(ids, counts=None):
     Optionally allows to update an existing dictionary of counts.
     """
     counts = {} if counts is None else counts
-    for pair in zip(ids, ids[1:]):  # iterate consecutive elements
+    for pair in itertools.pairwise(ids):  # iterate consecutive elements
         counts[pair] = counts.get(pair, 0) + 1
     return counts
 
@@ -248,7 +249,7 @@ class FastRegexTokenizer:
         )  # pair -> set of chunk indices that contain this pair
 
         for chunk_idx, (chunk_ids, count) in enumerate(zip(ids, chunk_counts)):
-            for pair in zip(chunk_ids, chunk_ids[1:]):
+            for pair in itertools.pairwise(chunk_ids):
                 stats[pair] += count
                 positions[pair].add(chunk_idx)
 
