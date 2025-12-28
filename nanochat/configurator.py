@@ -21,15 +21,15 @@ from pathlib import Path
 
 
 def print0(s="", **kwargs):
-    ddp_rank = int(os.environ.get('RANK', 0))
+    ddp_rank = int(os.environ.get("RANK", 0))
     if ddp_rank == 0:
         print(s, **kwargs)
 
 
 for arg in sys.argv[1:]:
-    if '=' not in arg:
+    if "=" not in arg:
         # assume it's the name of a config file
-        assert not arg.startswith('--')
+        assert not arg.startswith("--")
         config_file = Path(arg)
         print0(f"Overriding config with {config_file}:")
         config_content = config_file.read_text()
@@ -37,8 +37,8 @@ for arg in sys.argv[1:]:
         exec(config_content)
     else:
         # assume it's a --key=value argument
-        assert arg.startswith('--')
-        key, val = arg.split('=')
+        assert arg.startswith("--")
+        key, val = arg.split("=")
         key = key[2:]
         if key in globals():
             try:

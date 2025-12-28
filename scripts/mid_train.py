@@ -60,9 +60,9 @@ dry_run = 0  # dry_run=1 is for experiments: we will log to wandb but we won't w
 config_keys = [
     k
     for k, v in globals().items()
-    if not k.startswith('_') and isinstance(v, (int, float, bool, str))
+    if not k.startswith("_") and isinstance(v, (int, float, bool, str))
 ]
-configurator_path = Path('nanochat') / 'configurator.py'
+configurator_path = Path("nanochat") / "configurator.py"
 exec(configurator_path.read_text())  # overrides from command line or config file
 user_config = {k: globals()[k] for k in config_keys}  # possibly useful for logging
 # -----------------------------------------------------------------------------

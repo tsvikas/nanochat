@@ -332,15 +332,15 @@ def generate_conversation(idx: int):
     user_first_prompt = "\n".join(rng.choice(user_first_prompts) for _ in range(5))
     payload = copy.deepcopy(base_payload)
     modified_prompt = prompt.replace("%USER_FIRST_PROMPTS%", user_first_prompt)
-    payload['messages'] = [{"role": "user", "content": modified_prompt}]
+    payload["messages"] = [{"role": "user", "content": modified_prompt}]
 
     response = requests.post(url, headers=headers, json=payload)
     result = response.json()
-    content = result['choices'][0]['message']['content']
+    content = result["choices"][0]["message"]["content"]
 
     # Parse the JSON response and unpack the messages
     conversation_data = json.loads(content)
-    messages = conversation_data['messages']
+    messages = conversation_data["messages"]
 
     return messages
 
@@ -372,13 +372,13 @@ with ThreadPoolExecutor(max_workers=num_workers) as executor:
             # Lightly validate the conversation structure
             for i, message in enumerate(messages):
                 expected_role = "user" if i % 2 == 0 else "assistant"
-                assert message['role'] == expected_role, (
+                assert message["role"] == expected_role, (
                     f"Message {i} has role {message['role']} but should be {expected_role}"
                 )
 
             # If all looks good, write the messages to file
-            with output_file.open('a') as f:
-                f.write(json.dumps(messages) + '\n')
+            with output_file.open("a") as f:
+                f.write(json.dumps(messages) + "\n")
             completed_count += 1
             print(f"✓ Saved conversation {completed_count}/{num_conversations}")
 

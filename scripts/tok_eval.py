@@ -184,18 +184,18 @@ for tokenizer_name in ["gpt2", "gpt4", "ours"]:
         decoded = tokenizer.decode(encoded)
         assert decoded == text
 
-        encoded_bytes = text.encode('utf-8')
+        encoded_bytes = text.encode("utf-8")
         ratio = len(encoded_bytes) / len(encoded)
         tokenizer_results[tokenizer_name][name] = {
-            'bytes': len(encoded_bytes),
-            'tokens': len(encoded),
-            'ratio': ratio,
+            "bytes": len(encoded_bytes),
+            "tokens": len(encoded),
+            "ratio": ratio,
         }
 
 # ANSI color codes
-GREEN = '\033[92m'
-RED = '\033[91m'
-RESET = '\033[0m'
+GREEN = "\033[92m"
+RED = "\033[91m"
+RESET = "\033[0m"
 
 # Print vocab sizes
 print(f"\nVocab sizes:")
@@ -223,15 +223,15 @@ def print_comparison(baseline_name, baseline_results, ours_results, all_text):
         # Calculate relative difference (positive means ours is better, negative means worse)
         # Using tokens: fewer tokens is better, so we calculate (baseline_tokens - ours_tokens) / baseline_tokens
         relative_diff = (
-            (baseline_data['tokens'] - ours_data['tokens']) / baseline_data['tokens']
+            (baseline_data["tokens"] - ours_data["tokens"]) / baseline_data["tokens"]
         ) * 100
 
         # Determine which has better compression (higher ratio = better)
-        if baseline_data['ratio'] > ours_data['ratio']:
+        if baseline_data["ratio"] > ours_data["ratio"]:
             baseline_color, ours_color = GREEN, RED
             better = baseline_name
             diff_color = RED
-        elif ours_data['ratio'] > baseline_data['ratio']:
+        elif ours_data["ratio"] > baseline_data["ratio"]:
             baseline_color, ours_color = RED, GREEN
             better = "Ours"
             diff_color = GREEN
@@ -253,10 +253,10 @@ def print_comparison(baseline_name, baseline_results, ours_results, all_text):
 
 # Print comparisons
 print_comparison(
-    "GPT-2", tokenizer_results['gpt2'], tokenizer_results['ours'], all_text
+    "GPT-2", tokenizer_results["gpt2"], tokenizer_results["ours"], all_text
 )
 print_comparison(
-    "GPT-4", tokenizer_results['gpt4'], tokenizer_results['ours'], all_text
+    "GPT-4", tokenizer_results["gpt4"], tokenizer_results["ours"], all_text
 )
 
 # Log to report
@@ -264,9 +264,9 @@ from nanochat.report import get_report
 
 lines = []
 for baseline_name in ["GPT-2", "GPT-4"]:
-    baseline_key = baseline_name.lower().replace('-', '')
+    baseline_key = baseline_name.lower().replace("-", "")
     baseline_results = tokenizer_results[baseline_key]
-    ours_results = tokenizer_results['ours']
+    ours_results = tokenizer_results["ours"]
     lines.append(f"### Comparison with {baseline_name}")
     lines.append("")
     lines.append(
@@ -283,7 +283,7 @@ for baseline_name in ["GPT-2", "GPT-4"]:
         baseline_data = baseline_results[name]
         ours_data = ours_results[name]
         relative_diff = (
-            (baseline_data['tokens'] - ours_data['tokens']) / baseline_data['tokens']
+            (baseline_data["tokens"] - ours_data["tokens"]) / baseline_data["tokens"]
         ) * 100
         lines.append(
             f"| {name} | {baseline_data['bytes']} | {baseline_data['tokens']} | {baseline_data['ratio']:.2f} | {ours_data['tokens']} | {ours_data['ratio']:.2f} | {relative_diff:+.1f}% |"

@@ -18,14 +18,14 @@ class ColoredFormatter(logging.Formatter):
 
     # ANSI color codes
     COLORS = {
-        'DEBUG': '\033[36m',  # Cyan
-        'INFO': '\033[32m',  # Green
-        'WARNING': '\033[33m',  # Yellow
-        'ERROR': '\033[31m',  # Red
-        'CRITICAL': '\033[35m',  # Magenta
+        "DEBUG": "\033[36m",  # Cyan
+        "INFO": "\033[32m",  # Green
+        "WARNING": "\033[33m",  # Yellow
+        "ERROR": "\033[31m",  # Red
+        "CRITICAL": "\033[35m",  # Magenta
     }
-    RESET = '\033[0m'
-    BOLD = '\033[1m'
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
 
     def format(self, record):
         # Add color to the level name
@@ -37,16 +37,16 @@ class ColoredFormatter(logging.Formatter):
         # Format the message
         message = super().format(record)
         # Add color to specific parts of the message
-        if levelname == 'INFO':
+        if levelname == "INFO":
             # Highlight numbers and percentages
             message = re.sub(
-                r'(\d+\.?\d*\s*(?:GB|MB|%|docs))',
-                rf'{self.BOLD}\1{self.RESET}',
+                r"(\d+\.?\d*\s*(?:GB|MB|%|docs))",
+                rf"{self.BOLD}\1{self.RESET}",
                 message,
             )
             message = re.sub(
-                r'(Shard \d+)',
-                rf'{self.COLORS["INFO"]}{self.BOLD}\1{self.RESET}',
+                r"(Shard \d+)",
+                rf"{self.COLORS['INFO']}{self.BOLD}\1{self.RESET}",
                 message,
             )
         return message
@@ -55,7 +55,7 @@ class ColoredFormatter(logging.Formatter):
 def setup_default_logging():
     handler = logging.StreamHandler()
     handler.setFormatter(
-        ColoredFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        ColoredFormatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     logging.basicConfig(
         level=logging.INFO,
@@ -116,7 +116,7 @@ def download_file_with_lock(url, filename, postprocess_fn=None):
 
 
 def print0(s="", **kwargs):
-    ddp_rank = int(os.environ.get('RANK', 0))
+    ddp_rank = int(os.environ.get("RANK", 0))
     if ddp_rank == 0:
         print(s, **kwargs)
 
@@ -138,15 +138,15 @@ def print_banner():
 
 def is_ddp():
     # TODO is there a proper way
-    return int(os.environ.get('RANK', -1)) != -1
+    return int(os.environ.get("RANK", -1)) != -1
 
 
 def get_dist_info():
     if is_ddp():
-        assert all(var in os.environ for var in ['RANK', 'LOCAL_RANK', 'WORLD_SIZE'])
-        ddp_rank = int(os.environ['RANK'])
-        ddp_local_rank = int(os.environ['LOCAL_RANK'])
-        ddp_world_size = int(os.environ['WORLD_SIZE'])
+        assert all(var in os.environ for var in ["RANK", "LOCAL_RANK", "WORLD_SIZE"])
+        ddp_rank = int(os.environ["RANK"])
+        ddp_local_rank = int(os.environ["LOCAL_RANK"])
+        ddp_world_size = int(os.environ["WORLD_SIZE"])
         return True, ddp_rank, ddp_local_rank, ddp_world_size
     else:
         return False, 0, 0, 1

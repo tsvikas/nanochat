@@ -37,7 +37,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 def list_parquet_files(data_dir=DATA_DIR):
     """Looks into a data dir and returns full paths to all parquet files."""
-    parquet_paths = sorted(data_dir.glob('*.parquet'))
+    parquet_paths = sorted(data_dir.glob("*.parquet"))
     return parquet_paths
 
 
@@ -54,7 +54,7 @@ def parquets_iter_batched(split, start=0, step=1):
         pf = pq.ParquetFile(filepath)
         for rg_idx in range(start, pf.num_row_groups, step):
             rg = pf.read_row_group(rg_idx)
-            texts = rg.column('text').to_pylist()
+            texts = rg.column("text").to_pylist()
             yield texts
 
 
@@ -81,7 +81,7 @@ def download_single_file(index):
             response.raise_for_status()
             # Write to temporary file first
             temp_path = filepath.with_name(f"{filepath.name}.tmp")
-            with temp_path.open('wb') as f:
+            with temp_path.open("wb") as f:
                 for chunk in response.iter_content(
                     chunk_size=1024 * 1024
                 ):  # 1MB chunks

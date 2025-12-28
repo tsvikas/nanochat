@@ -31,16 +31,16 @@ def run_command(cmd):
 def get_git_info():
     """Get current git commit, branch, and dirty status."""
     info = {}
-    info['commit'] = run_command("git rev-parse --short HEAD") or "unknown"
-    info['branch'] = run_command("git rev-parse --abbrev-ref HEAD") or "unknown"
+    info["commit"] = run_command("git rev-parse --short HEAD") or "unknown"
+    info["branch"] = run_command("git rev-parse --abbrev-ref HEAD") or "unknown"
 
     # Check if repo is dirty (has uncommitted changes)
     status = run_command("git status --porcelain")
-    info['dirty'] = bool(status) if status is not None else False
+    info["dirty"] = bool(status) if status is not None else False
 
     # Get commit message
-    info['message'] = run_command("git log -1 --pretty=%B") or ""
-    info['message'] = info['message'].split('\n')[0][:80]  # First line, truncated
+    info["message"] = run_command("git log -1 --pretty=%B") or ""
+    info["message"] = info["message"].split("\n")[0][:80]  # First line, truncated
 
     return info
 
@@ -74,20 +74,20 @@ def get_system_info():
     info = {}
 
     # Basic system info
-    info['hostname'] = socket.gethostname()
-    info['platform'] = platform.system()
-    info['python_version'] = platform.python_version()
-    info['torch_version'] = torch.__version__
+    info["hostname"] = socket.gethostname()
+    info["platform"] = platform.system()
+    info["python_version"] = platform.python_version()
+    info["torch_version"] = torch.__version__
 
     # CPU and memory
-    info['cpu_count'] = psutil.cpu_count(logical=False)
-    info['cpu_count_logical'] = psutil.cpu_count(logical=True)
-    info['memory_gb'] = psutil.virtual_memory().total / (1024**3)
+    info["cpu_count"] = psutil.cpu_count(logical=False)
+    info["cpu_count_logical"] = psutil.cpu_count(logical=True)
+    info["memory_gb"] = psutil.virtual_memory().total / (1024**3)
 
     # User and environment
-    info['user'] = os.environ.get('USER', 'unknown')
-    info['nanochat_base_dir'] = os.environ.get('NANOCHAT_BASE_DIR', 'out')
-    info['working_dir'] = Path.cwd()
+    info["user"] = os.environ.get("USER", "unknown")
+    info["nanochat_base_dir"] = os.environ.get("NANOCHAT_BASE_DIR", "out")
+    info["working_dir"] = Path.cwd()
 
     return info
 
@@ -140,33 +140,33 @@ Generated: {timestamp}
 ## Environment
 
 ### Git Information
-- Branch: {git_info['branch']}
-- Commit: {git_info['commit']} {"(dirty)" if git_info['dirty'] else "(clean)"}
-- Message: {git_info['message']}
+- Branch: {git_info["branch"]}
+- Commit: {git_info["commit"]} {"(dirty)" if git_info["dirty"] else "(clean)"}
+- Message: {git_info["message"]}
 
 ### Hardware
-- Platform: {sys_info['platform']}
-- CPUs: {sys_info['cpu_count']} cores ({sys_info['cpu_count_logical']} logical)
-- Memory: {sys_info['memory_gb']:.1f} GB
+- Platform: {sys_info["platform"]}
+- CPUs: {sys_info["cpu_count"]} cores ({sys_info["cpu_count_logical"]} logical)
+- Memory: {sys_info["memory_gb"]:.1f} GB
 """
 
     if gpu_info.get("available"):
         gpu_names = ", ".join(set(gpu_info["names"]))
         total_vram = sum(gpu_info["memory_gb"])
-        header += f"""- GPUs: {gpu_info['count']}x {gpu_names}
+        header += f"""- GPUs: {gpu_info["count"]}x {gpu_names}
 - GPU Memory: {total_vram:.1f} GB total
-- CUDA Version: {gpu_info['cuda_version']}
+- CUDA Version: {gpu_info["cuda_version"]}
 """
     else:
         header += "- GPUs: None available\n"
 
     if cost_info and cost_info["hourly_rate"] > 0:
-        header += f"""- Hourly Rate: ${cost_info['hourly_rate']:.2f}/hour\n"""
+        header += f"""- Hourly Rate: ${cost_info["hourly_rate"]:.2f}/hour\n"""
 
     header += f"""
 ### Software
-- Python: {sys_info['python_version']}
-- PyTorch: {sys_info['torch_version']}
+- Python: {sys_info["python_version"]}
+- PyTorch: {sys_info["torch_version"]}
 
 """
 
@@ -175,15 +175,15 @@ Generated: {timestamp}
         'files-to-prompt . -e py -e md -e rs -e html -e toml -e sh --ignore "*target*" --cxml'
     )
     num_chars = len(packaged)
-    num_lines = len(packaged.split('\n'))
-    num_files = len([x for x in packaged.split('\n') if x.startswith('<source>')])
+    num_lines = len(packaged.split("\n"))
+    num_files = len([x for x in packaged.split("\n") if x.startswith("<source>")])
     num_tokens = num_chars // 4  # assume approximately 4 chars per token
 
     # count dependencies via uv.lock
     uv_lock_lines = 0
-    uv_lock_path = Path('uv.lock')
+    uv_lock_path = Path("uv.lock")
     if uv_lock_path.exists():
-        with uv_lock_path.open('r', encoding='utf-8') as f:
+        with uv_lock_path.open("r", encoding="utf-8") as f:
             uv_lock_lines = len(f.readlines())
 
     header += f"""
@@ -238,7 +238,7 @@ def extract(section, keys):
 
 def extract_timestamp(content, prefix):
     """Extract timestamp from content with given prefix."""
-    for line in content.split('\n'):
+    for line in content.split("\n"):
         if line.startswith(prefix):
             time_str = line.split(":", 1)[1].strip()
             try:

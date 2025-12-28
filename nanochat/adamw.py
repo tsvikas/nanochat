@@ -51,27 +51,27 @@ class DistAdamW(torch.optim.Optimizer):
 
         idx = 0
         for group in self.param_groups:
-            beta1, beta2 = group['betas']
-            eps = group['eps']
-            wd = group['weight_decay']
-            params = group['params']
+            beta1, beta2 = group["betas"]
+            eps = group["eps"]
+            wd = group["weight_decay"]
+            params = group["params"]
             for base in range(len(params)):
                 reduce_scatter_futures[idx].wait()
                 p = params[base]
                 rank_size = p.shape[0] // world_size
                 p_slice = p[rank * rank_size : (rank + 1) * rank_size]
-                lr = group['lr'] * getattr(p, "lr_mul", 1.0)
+                lr = group["lr"] * getattr(p, "lr_mul", 1.0)
                 state = self.state[p]
                 g_slice = grad_slices[idx]
                 # State init
                 if not state:
-                    state['step'] = torch.tensor(0, dtype=torch.int64, device=p.device)
-                    state['exp_avg'] = torch.zeros_like(p_slice)
-                    state['exp_avg_sq'] = torch.zeros_like(p_slice)
-                exp_avg = state['exp_avg']
-                exp_avg_sq = state['exp_avg_sq']
-                state['step'] += 1
-                t = state['step']
+                    state["step"] = torch.tensor(0, dtype=torch.int64, device=p.device)
+                    state["exp_avg"] = torch.zeros_like(p_slice)
+                    state["exp_avg_sq"] = torch.zeros_like(p_slice)
+                exp_avg = state["exp_avg"]
+                exp_avg_sq = state["exp_avg_sq"]
+                state["step"] += 1
+                t = state["step"]
                 # weight decay
                 if wd != 0:
                     eff_weight_decay = lr * wd * getattr(p, "wd_mul", 1.0)

@@ -14,36 +14,36 @@ from nanochat.checkpoint_manager import load_model
 from nanochat.common import autodetect_device_type, compute_init
 from nanochat.engine import Engine
 
-parser = argparse.ArgumentParser(description='Chat with the model')
+parser = argparse.ArgumentParser(description="Chat with the model")
 parser.add_argument(
-    '-i', '--source', type=str, default="sft", help="Source of the model: sft|mid|rl"
+    "-i", "--source", type=str, default="sft", help="Source of the model: sft|mid|rl"
 )
 parser.add_argument(
-    '-g', '--model-tag', type=str, default=None, help='Model tag to load'
+    "-g", "--model-tag", type=str, default=None, help="Model tag to load"
 )
-parser.add_argument('-s', '--step', type=int, default=None, help='Step to load')
+parser.add_argument("-s", "--step", type=int, default=None, help="Step to load")
 parser.add_argument(
-    '-p',
-    '--prompt',
+    "-p",
+    "--prompt",
     type=str,
-    default='',
-    help='Prompt the model, get a single response back',
+    default="",
+    help="Prompt the model, get a single response back",
 )
 parser.add_argument(
-    '-t', '--temperature', type=float, default=0.6, help='Temperature for generation'
+    "-t", "--temperature", type=float, default=0.6, help="Temperature for generation"
 )
 parser.add_argument(
-    '-k', '--top-k', type=int, default=50, help='Top-k sampling parameter'
+    "-k", "--top-k", type=int, default=50, help="Top-k sampling parameter"
 )
 parser.add_argument(
-    '--device-type',
+    "--device-type",
     type=str,
-    default='',
-    choices=['cuda', 'cpu', 'mps'],
-    help='Device type for evaluation: cuda|cpu|mps. empty => autodetect',
+    default="",
+    choices=["cuda", "cpu", "mps"],
+    help="Device type for evaluation: cuda|cpu|mps. empty => autodetect",
 )
 parser.add_argument(
-    '-d', '--dtype', type=str, default='bfloat16', choices=['float32', 'bfloat16']
+    "-d", "--dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"]
 )
 args = parser.parse_args()
 
@@ -51,7 +51,7 @@ args = parser.parse_args()
 
 device_type = autodetect_device_type() if args.device_type == "" else args.device_type
 ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init(device_type)
-ptdtype = torch.float32 if args.dtype == 'float32' else torch.bfloat16
+ptdtype = torch.float32 if args.dtype == "float32" else torch.bfloat16
 autocast_ctx = (
     torch.amp.autocast(device_type=device_type, dtype=ptdtype)
     if device_type == "cuda"
@@ -96,11 +96,11 @@ while True:
             break
 
     # Handle special commands
-    if user_input.lower() in ['quit', 'exit']:
+    if user_input.lower() in ["quit", "exit"]:
         print("Goodbye!")
         break
 
-    if user_input.lower() == 'clear':
+    if user_input.lower() == "clear":
         conversation_tokens = [bos]
         print("Conversation cleared.")
         continue

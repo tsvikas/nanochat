@@ -87,7 +87,7 @@ def run_generative_eval(
         # Logging (overwrite the same line in the console)
         print(
             f"\r\033[KRank {ddp_rank} | {num_passed}/{total} ({100 * num_passed / total:.2f}%)",
-            end='',
+            end="",
             flush=True,
         )
 
@@ -163,7 +163,7 @@ def run_categorical_eval(task_object, tokenizer, model, batch_size, max_problems
         # letter (e.g. A, B, C, D), but evaluations typically make the task easier in this way.
         for idx, conversation in enumerate(conversations):
             # get the token ids of all the available letters of this problem
-            letters = conversation['letters']
+            letters = conversation["letters"]
             letter_ids = []
             for letter in letters:
                 if not letter in letter_to_id_cache:
@@ -215,16 +215,16 @@ def run_chat_eval(
 ):
     # Create the evaluation object
     task_module = {
-        'HumanEval': HumanEval,
-        'MMLU': partial(MMLU, subset="all", split="test"),
-        'ARC-Easy': partial(ARC, subset="ARC-Easy", split="test"),
-        'ARC-Challenge': partial(ARC, subset="ARC-Challenge", split="test"),
-        'GSM8K': partial(GSM8K, subset="main", split="test"),
-        'SpellingBee': partial(SpellingBee, size=256, split="test"),
+        "HumanEval": HumanEval,
+        "MMLU": partial(MMLU, subset="all", split="test"),
+        "ARC-Easy": partial(ARC, subset="ARC-Easy", split="test"),
+        "ARC-Challenge": partial(ARC, subset="ARC-Challenge", split="test"),
+        "GSM8K": partial(GSM8K, subset="main", split="test"),
+        "SpellingBee": partial(SpellingBee, size=256, split="test"),
     }[task_name]
     task_object = task_module()
     # Run the evaluation
-    if task_object.eval_type == 'generative':
+    if task_object.eval_type == "generative":
         acc = run_generative_eval(
             task_object,
             tokenizer,
@@ -236,7 +236,7 @@ def run_chat_eval(
             top_k,
             max_problems=max_problems,
         )
-    elif task_object.eval_type == 'categorical':
+    elif task_object.eval_type == "categorical":
         acc = run_categorical_eval(
             task_object, tokenizer, model, batch_size, max_problems=max_problems
         )
@@ -250,46 +250,46 @@ if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-i',
-        '--source',
+        "-i",
+        "--source",
         type=str,
         required=True,
         help="Source of the model: sft|mid|rl",
     )
     parser.add_argument(
-        '-a',
-        '--task-name',
+        "-a",
+        "--task-name",
         type=str,
         default=None,
         help="Task name. Default = all tasks. Use | to split multiple tasks.",
     )
     parser.add_argument(
-        '-d', '--dtype', type=str, default='bfloat16', choices=['float32', 'bfloat16']
+        "-d", "--dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"]
     )
-    parser.add_argument('-t', '--temperature', type=float, default=0.0)
-    parser.add_argument('-m', '--max-new-tokens', type=int, default=512)
-    parser.add_argument('-n', '--num-samples', type=int, default=1)
-    parser.add_argument('-k', '--top-k', type=int, default=50)
+    parser.add_argument("-t", "--temperature", type=float, default=0.0)
+    parser.add_argument("-m", "--max-new-tokens", type=int, default=512)
+    parser.add_argument("-n", "--num-samples", type=int, default=1)
+    parser.add_argument("-k", "--top-k", type=int, default=50)
     parser.add_argument(
-        '-b',
-        '--batch-size',
+        "-b",
+        "--batch-size",
         type=int,
         default=8,
-        help='Batch size for categorical evaluation',
+        help="Batch size for categorical evaluation",
     )
     parser.add_argument(
-        '-g', '--model-tag', type=str, default=None, help='Model tag to load'
+        "-g", "--model-tag", type=str, default=None, help="Model tag to load"
     )
-    parser.add_argument('-s', '--step', type=int, default=None, help='Step to load')
+    parser.add_argument("-s", "--step", type=int, default=None, help="Step to load")
     parser.add_argument(
-        '-x', '--max-problems', type=int, default=None, help='Max problems to evaluate'
+        "-x", "--max-problems", type=int, default=None, help="Max problems to evaluate"
     )
     parser.add_argument(
-        '--device-type',
+        "--device-type",
         type=str,
-        default='',
-        choices=['cuda', 'cpu', 'mps'],
-        help='Device type for evaluation: cuda|cpu|mps. empty => autodetect',
+        default="",
+        choices=["cuda", "cpu", "mps"],
+        help="Device type for evaluation: cuda|cpu|mps. empty => autodetect",
     )
     args = parser.parse_args()
 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
         autodetect_device_type() if args.device_type == "" else args.device_type
     )
     ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init(device_type)
-    ptdtype = torch.float32 if args.dtype == 'float32' else torch.bfloat16
+    ptdtype = torch.float32 if args.dtype == "float32" else torch.bfloat16
     autocast_ctx = (
         torch.amp.autocast(device_type=device_type, dtype=ptdtype)
         if device_type == "cuda"
@@ -311,22 +311,22 @@ if __name__ == "__main__":
 
     # Get the tasks to evaluate on
     all_tasks = [
-        'ARC-Easy',
-        'ARC-Challenge',
-        'MMLU',
-        'GSM8K',
-        'HumanEval',
-        'SpellingBee',
+        "ARC-Easy",
+        "ARC-Challenge",
+        "MMLU",
+        "GSM8K",
+        "HumanEval",
+        "SpellingBee",
     ]
     baseline_accuracies = {
-        'ARC-Easy': 0.25,  # multiple choice 1 of 4 => 25%
-        'ARC-Challenge': 0.25,  # multiple choice 1 of 4 => 25%
-        'MMLU': 0.25,  # multiple choice 1 of 4 => 25%
-        'GSM8K': 0.0,  # open-ended => 0%
-        'HumanEval': 0.0,  # open-ended => 0%
-        'SpellingBee': 0.0,  # open-ended => 0%
+        "ARC-Easy": 0.25,  # multiple choice 1 of 4 => 25%
+        "ARC-Challenge": 0.25,  # multiple choice 1 of 4 => 25%
+        "MMLU": 0.25,  # multiple choice 1 of 4 => 25%
+        "GSM8K": 0.0,  # open-ended => 0%
+        "HumanEval": 0.0,  # open-ended => 0%
+        "SpellingBee": 0.0,  # open-ended => 0%
     }
-    task_names = all_tasks if args.task_name is None else args.task_name.split('|')
+    task_names = all_tasks if args.task_name is None else args.task_name.split("|")
 
     # Run all the task evaluations sequentially
     results = {}

@@ -46,7 +46,7 @@ class GSM8K(Task):
 
     @property
     def eval_type(self):
-        return 'generative'
+        return "generative"
 
     def num_examples(self):
         return len(self.ds)
@@ -54,21 +54,21 @@ class GSM8K(Task):
     def get_example(self, index):
         """Get a single problem from the dataset."""
         row = self.ds[index]
-        question = row['question']  # string of the question prompt
+        question = row["question"]  # string of the question prompt
         answer = row[
-            'answer'
+            "answer"
         ]  # string of the full solution and the answer after #### marker
         # Create and return the Conversation object
         # This is tricky because GSM8K uses tool calls, which we need to parse here.
         assistant_message_parts = []
-        parts = re.split(r'(<<[^>]+>>)', answer)
+        parts = re.split(r"(<<[^>]+>>)", answer)
         for part in parts:
-            if part.startswith('<<') and part.endswith('>>'):
+            if part.startswith("<<") and part.endswith(">>"):
                 # This is a calculator tool call
                 inner = part[2:-2]  # Remove << >>
                 # Split on = to get expression and result
-                if '=' in inner:
-                    expr, result = inner.rsplit('=', 1)
+                if "=" in inner:
+                    expr, result = inner.rsplit("=", 1)
                 else:
                     expr, result = inner, ""
                 # Add the tool call as a part
@@ -107,15 +107,15 @@ class GSM8K(Task):
             "Assuming simple string response for now"
         )
         # First extract the ground truth answer
-        assistant_message = conversation['messages'][-1]
-        assert assistant_message['role'] == "assistant", (
+        assistant_message = conversation["messages"][-1]
+        assert assistant_message["role"] == "assistant", (
             "Last message must be from the Assistant"
         )
-        assert isinstance(assistant_message['content'], list), (
+        assert isinstance(assistant_message["content"], list), (
             "This is expected to be a list of parts"
         )
-        last_text_part = assistant_message['content'][-1][
-            'text'
+        last_text_part = assistant_message["content"][-1][
+            "text"
         ]  # this contains the final answer in GSM8K
         # Extract both the ground truth answer and the predicted answer
         ref_num = extract_answer(last_text_part)

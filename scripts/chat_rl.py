@@ -59,9 +59,9 @@ eval_examples = 400  # number of examples used for evaluating pass@k
 config_keys = [
     k
     for k, v in globals().items()
-    if not k.startswith('_') and isinstance(v, (int, float, bool, str))
+    if not k.startswith("_") and isinstance(v, (int, float, bool, str))
 ]
-configurator_path = Path('nanochat') / 'configurator.py'
+configurator_path = Path("nanochat") / "configurator.py"
 exec(configurator_path.read_text())  # overrides from command line or config file
 user_config = {k: globals()[k] for k in config_keys}  # will be useful for logging
 # -----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ user_config = {k: globals()[k] for k in config_keys}  # will be useful for loggi
 # Init compute/precision
 ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init()
 master_process = ddp_rank == 0  # this process will do logging, checkpointing etc.
-dtype = torch.float32 if dtype == 'float32' else torch.bfloat16
+dtype = torch.float32 if dtype == "float32" else torch.bfloat16
 autocast_ctx = torch.amp.autocast(device_type="cuda", dtype=dtype)
 
 # wandb logging init
@@ -328,7 +328,7 @@ for step in range(num_steps):
             advantages = advantages_all[b0:b1]
             # Calculate log probabilities. Note that the loss calculates NLL = -logp, so we negate
             with autocast_ctx:
-                logp = -model(inputs, targets, loss_reduction='none').view_as(
+                logp = -model(inputs, targets, loss_reduction="none").view_as(
                     inputs
                 )  # (B, T)
             # Calculate the PG objective. Note that ignore_index=-1 ensures that invalid tokens have loss 0.

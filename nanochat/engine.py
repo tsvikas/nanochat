@@ -72,30 +72,30 @@ def use_calculator(expr):
 
     # Disallow dangerous patterns
     dangerous_patterns = [
-        '__',
-        'import',
-        'exec',
-        'eval',
-        'compile',
-        'open',
-        'file',
-        'input',
-        'raw_input',
-        'globals',
-        'locals',
-        'vars',
-        'dir',
-        'getattr',
-        'setattr',
-        'delattr',
-        'hasattr',
+        "__",
+        "import",
+        "exec",
+        "eval",
+        "compile",
+        "open",
+        "file",
+        "input",
+        "raw_input",
+        "globals",
+        "locals",
+        "vars",
+        "dir",
+        "getattr",
+        "setattr",
+        "delattr",
+        "hasattr",
     ]
     expr_lower = expr.lower()
     if any(pattern in expr_lower for pattern in dangerous_patterns):
         return None
 
     # Only allow .count() method for now (can expand later)
-    if '.count(' not in expr:
+    if ".count(" not in expr:
         return None
 
     # Evaluate with timeout

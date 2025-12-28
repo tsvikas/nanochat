@@ -69,9 +69,9 @@ eval_metrics_max_problems = 1024
 config_keys = [
     k
     for k, v in globals().items()
-    if not k.startswith('_') and isinstance(v, (int, float, bool, str))
+    if not k.startswith("_") and isinstance(v, (int, float, bool, str))
 ]
-configurator_path = Path('nanochat') / 'configurator.py'
+configurator_path = Path("nanochat") / "configurator.py"
 exec(configurator_path.read_text())  # overrides from command line or config file
 user_config = {k: globals()[k] for k in config_keys}  # possibly useful for logging
 # -----------------------------------------------------------------------------
@@ -80,7 +80,7 @@ user_config = {k: globals()[k] for k in config_keys}  # possibly useful for logg
 device_type = autodetect_device_type() if device_type == "" else device_type
 ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init(device_type)
 master_process = ddp_rank == 0
-ptdtype = torch.float32 if dtype == 'float32' else torch.bfloat16
+ptdtype = torch.float32 if dtype == "float32" else torch.bfloat16
 autocast_ctx = (
     torch.amp.autocast(device_type=device_type, dtype=ptdtype)
     if device_type == "cuda"
@@ -266,7 +266,7 @@ for step in range(num_iterations):
                 batch_size=device_batch_size * 2,
                 max_problems=eval_metrics_max_problems,
             )
-        metrics_str = ', '.join(f'{k}: {v:.6f}' for k, v in metrics.items())
+        metrics_str = ", ".join(f"{k}: {v:.6f}" for k, v in metrics.items())
         print0(f"Step {step:05d} | {metrics_str}")
         wandb_run.log(
             {

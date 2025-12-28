@@ -48,7 +48,7 @@ def place_eval_bundle(file_path):
     base_dir = get_base_dir()
     eval_bundle_dir = base_dir / "eval_bundle"
     with tempfile.TemporaryDirectory() as tmpdir:
-        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        with zipfile.ZipFile(file_path, "r") as zip_ref:
             zip_ref.extractall(tmpdir)
         extracted_bundle_dir = Path(tmpdir) / "eval_bundle"
         shutil.move(extracted_bundle_dir, eval_bundle_dir)
@@ -71,17 +71,17 @@ def evaluate_model(model, tokenizer, device, max_per_task=-1):
     config_path = eval_bundle_dir / "core.yaml"
     data_base_path = eval_bundle_dir / "eval_data"
     eval_meta_data = eval_bundle_dir / "eval_meta_data.csv"
-    with config_path.open('r', encoding='utf-8') as f:
+    with config_path.open("r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
-    tasks = config['icl_tasks']
+    tasks = config["icl_tasks"]
 
     # Load random baseline values from eval metadata
     random_baselines = {}
-    with eval_meta_data.open('r', encoding='utf-8') as f:
+    with eval_meta_data.open("r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            task_name = row['Eval Task']
-            random_baseline = row['Random baseline']
+            task_name = row["Eval Task"]
+            random_baseline = row["Random baseline"]
             random_baselines[task_name] = float(random_baseline)
 
     # Evaluate each task
@@ -89,21 +89,21 @@ def evaluate_model(model, tokenizer, device, max_per_task=-1):
     centered_results = {}
     for task in tasks:
         start_time = time.time()
-        label = task['label']
+        label = task["label"]
         task_meta = {
-            'task_type': task['icl_task_type'],
-            'dataset_uri': task['dataset_uri'],
-            'num_fewshot': task['num_fewshot'][0],
-            'continuation_delimiter': task.get('continuation_delimiter', ' '),
+            "task_type": task["icl_task_type"],
+            "dataset_uri": task["dataset_uri"],
+            "num_fewshot": task["num_fewshot"][0],
+            "continuation_delimiter": task.get("continuation_delimiter", " "),
         }
         print0(
             f"Evaluating: {label} ({task_meta['num_fewshot']}-shot, type: {task_meta['task_type']})... ",
-            end='',
+            end="",
         )
 
         # Load data for this task
-        data_path = data_base_path / task_meta['dataset_uri']
-        with data_path.open('r', encoding='utf-8') as f:
+        data_path = data_base_path / task_meta["dataset_uri"]
+        with data_path.open("r", encoding="utf-8") as f:
             data = [json.loads(line.strip()) for line in f]
 
         # shuffle the data because in many cases it appears ordered but we want
@@ -174,13 +174,13 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--hf-path', type=str, default=None, help='HuggingFace model path to evaluate'
+        "--hf-path", type=str, default=None, help="HuggingFace model path to evaluate"
     )
     parser.add_argument(
-        '--max-per-task',
+        "--max-per-task",
         type=int,
         default=-1,
-        help='Max examples per task to evaluate (-1 = disable)',
+        help="Max examples per task to evaluate (-1 = disable)",
     )
     args = parser.parse_args()
 
@@ -221,7 +221,7 @@ def main():
         results = out["results"]
         centered_results = out["centered_results"]
         core_metric = out["core_metric"]
-        with output_csv_path.open('w', encoding='utf-8', newline='') as f:
+        with output_csv_path.open("w", encoding="utf-8", newline="") as f:
             f.write(f"{'Task':<35}, {'Accuracy':<10}, {'Centered':<10}\n")
             for label in results:
                 f.write(
@@ -232,7 +232,7 @@ def main():
         print0("=" * 80)
         print0(f"Model: {model_name}")
         print0("=" * 80)
-        with output_csv_path.open('r', encoding='utf-8') as f:
+        with output_csv_path.open("r", encoding="utf-8") as f:
             print0(f.read())
 
     # Log to report

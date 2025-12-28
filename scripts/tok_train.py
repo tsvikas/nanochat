@@ -15,24 +15,24 @@ from nanochat.tokenizer import RustBPETokenizer
 # -----------------------------------------------------------------------------
 # Parse command line arguments
 
-parser = argparse.ArgumentParser(description='Train a BPE tokenizer')
+parser = argparse.ArgumentParser(description="Train a BPE tokenizer")
 parser.add_argument(
-    '--max_chars',
+    "--max_chars",
     type=int,
     default=10_000_000_000,
-    help='Maximum characters to train on (default: 10B)',
+    help="Maximum characters to train on (default: 10B)",
 )
 parser.add_argument(
-    '--doc_cap',
+    "--doc_cap",
     type=int,
     default=10_000,
-    help='Maximum characters per document (default: 10,000)',
+    help="Maximum characters per document (default: 10,000)",
 )
 parser.add_argument(
-    '--vocab_size',
+    "--vocab_size",
     type=int,
     default=65536,
-    help='Vocabulary size (default: 65536 = 2^16)',
+    help="Vocabulary size (default: 65536 = 2^16)",
 )
 args = parser.parse_args()
 print(f"max_chars: {args.max_chars:,}")
@@ -108,7 +108,7 @@ for token_id in range(vocab_size):
             token_str.encode("utf-8")
         )  # number of bytes that make up this token
         token_bytes.append(id_bytes)
-token_bytes = torch.tensor(token_bytes, dtype=torch.int32, device='cpu')
+token_bytes = torch.tensor(token_bytes, dtype=torch.int32, device="cpu")
 token_bytes_path = tokenizer_dir / "token_bytes.pt"
 torch.save(token_bytes, token_bytes_path)
 print(f"Saved token_bytes to {token_bytes_path}")

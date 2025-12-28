@@ -76,7 +76,7 @@ def tokenizing_distributed_data_loader_with_state(
                 while rg_idx < pf.num_row_groups:
                     rg = pf.read_row_group(rg_idx)
                     batch = rg.column(
-                        'text'
+                        "text"
                     ).to_pylist()  # each batch is a parquet group, e.g. 1024 rows
                     # the tokenizer encode might want to go in even smaller batches, e.g. 128 rows
                     for i in range(0, len(batch), tokenizer_batch_size):

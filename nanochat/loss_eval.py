@@ -33,7 +33,7 @@ def evaluate_bpb(model, batches, steps, token_bytes):
     batch_iter = iter(batches)
     for _ in range(steps):
         x, y = next(batch_iter)
-        loss2d = model(x, y, loss_reduction='none')  # (B, T)
+        loss2d = model(x, y, loss_reduction="none")  # (B, T)
         loss2d = loss2d.view(-1)  # flatten
         y = y.view(-1)  # flatten
         if (
@@ -65,6 +65,6 @@ def evaluate_bpb(model, batches, steps, token_bytes):
     total_nats = total_nats.item()
     total_bytes = total_bytes.item()
     if total_bytes == 0:
-        return float('inf')
+        return float("inf")
     bpb = total_nats / (math.log(2) * total_bytes)
     return bpb

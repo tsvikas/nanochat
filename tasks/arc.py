@@ -21,7 +21,7 @@ class ARC(Task):
 
     @property
     def eval_type(self):
-        return 'categorical'
+        return "categorical"
 
     def num_examples(self):
         return len(self.ds)
@@ -50,8 +50,8 @@ class ARC(Task):
     def evaluate(self, conversation, assistant_response):
         # the assert here is not strictly speaking needed, but currently the way we eval, we expect this to be true
         # I'm going to leave the assert here to prevent footguns, but possibly in the future can remove it.
-        assert assistant_response in conversation['letters'], (
+        assert assistant_response in conversation["letters"], (
             f"ARC answer {assistant_response} is expected to be one of {conversation['letters']}"
         )
-        assistant_message = conversation['messages'][-1]['content']  # e.g. "A"
+        assistant_message = conversation["messages"][-1]["content"]  # e.g. "A"
         return assistant_response == assistant_message

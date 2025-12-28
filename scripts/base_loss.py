@@ -31,7 +31,7 @@ model_tag = None  # optional model tag for the output directory name
 model_step = None  # optional model step for the output directory name
 device_type = ""  # cuda|cpu|mps (empty => autodetect)
 exec(
-    (Path('nanochat') / 'configurator.py').read_text()
+    (Path("nanochat") / "configurator.py").read_text()
 )  # overrides from command line or config file
 
 # Load the base model and the tokenizer

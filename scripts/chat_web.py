@@ -61,63 +61,63 @@ MAX_TOP_K = 200
 MIN_MAX_TOKENS = 1
 MAX_MAX_TOKENS = 4096
 
-parser = argparse.ArgumentParser(description='NanoChat Web Server')
+parser = argparse.ArgumentParser(description="NanoChat Web Server")
 parser.add_argument(
-    '-n', '--num-gpus', type=int, default=1, help='Number of GPUs to use (default: 1)'
+    "-n", "--num-gpus", type=int, default=1, help="Number of GPUs to use (default: 1)"
 )
 parser.add_argument(
-    '-i', '--source', type=str, default="sft", help="Source of the model: sft|mid|rl"
+    "-i", "--source", type=str, default="sft", help="Source of the model: sft|mid|rl"
 )
 parser.add_argument(
-    '-t',
-    '--temperature',
+    "-t",
+    "--temperature",
     type=float,
     default=0.8,
-    help='Default temperature for generation',
+    help="Default temperature for generation",
 )
 parser.add_argument(
-    '-k', '--top-k', type=int, default=50, help='Default top-k sampling parameter'
+    "-k", "--top-k", type=int, default=50, help="Default top-k sampling parameter"
 )
 parser.add_argument(
-    '-m',
-    '--max-tokens',
+    "-m",
+    "--max-tokens",
     type=int,
     default=512,
-    help='Default max tokens for generation',
+    help="Default max tokens for generation",
 )
 parser.add_argument(
-    '-g', '--model-tag', type=str, default=None, help='Model tag to load'
+    "-g", "--model-tag", type=str, default=None, help="Model tag to load"
 )
-parser.add_argument('-s', '--step', type=int, default=None, help='Step to load')
+parser.add_argument("-s", "--step", type=int, default=None, help="Step to load")
 parser.add_argument(
-    '-p', '--port', type=int, default=8000, help='Port to run the server on'
-)
-parser.add_argument(
-    '-d', '--dtype', type=str, default='bfloat16', choices=['float32', 'bfloat16']
+    "-p", "--port", type=int, default=8000, help="Port to run the server on"
 )
 parser.add_argument(
-    '--device-type',
+    "-d", "--dtype", type=str, default="bfloat16", choices=["float32", "bfloat16"]
+)
+parser.add_argument(
+    "--device-type",
     type=str,
-    default='',
-    choices=['cuda', 'cpu', 'mps'],
-    help='Device type for evaluation: cuda|cpu|mps. empty => autodetect',
+    default="",
+    choices=["cuda", "cpu", "mps"],
+    help="Device type for evaluation: cuda|cpu|mps. empty => autodetect",
 )
 parser.add_argument(
-    '--host', type=str, default='0.0.0.0', help='Host to bind the server to'
+    "--host", type=str, default="0.0.0.0", help="Host to bind the server to"
 )
 args = parser.parse_args()
 
 # Configure logging for conversation traffic
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
+    format="%(asctime)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
 
 device_type = autodetect_device_type() if args.device_type == "" else args.device_type
 ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init(device_type)
-ptdtype = torch.float32 if args.dtype == 'float32' else torch.bfloat16
+ptdtype = torch.float32 if args.dtype == "float32" else torch.bfloat16
 
 
 @dataclass
@@ -356,7 +356,7 @@ async def generate_stream(
             current_text = worker.tokenizer.decode(accumulated_tokens)
             # Only emit text if it doesn't end with a replacement character
             # This ensures we don't emit incomplete UTF-8 sequences
-            if not current_text.endswith('�'):
+            if not current_text.endswith("�"):
                 # Extract only the new text since last clean decode
                 new_text = current_text[len(last_clean_text) :]
                 if new_text:  # Only yield if there's new content
@@ -442,7 +442,7 @@ async def chat_completions(request: ChatRequest):
 @app.get("/health")
 async def health():
     """Health check endpoint."""
-    worker_pool = getattr(app.state, 'worker_pool', None)
+    worker_pool = getattr(app.state, "worker_pool", None)
     return {
         "status": "ok",
         "ready": worker_pool is not None and len(worker_pool.workers) > 0,
