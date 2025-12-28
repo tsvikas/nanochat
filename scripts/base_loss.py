@@ -22,6 +22,7 @@ from nanochat.common import (
 from nanochat.dataloader import tokenizing_distributed_data_loader
 from nanochat.engine import Engine
 from nanochat.loss_eval import evaluate_bpb
+from nanochat.report import get_report
 from nanochat.tokenizer import get_token_bytes
 
 # Configuration
@@ -88,8 +89,6 @@ if ddp_rank == 0:
         samples.append(sample_str)
 
 # Log to report
-from nanochat.report import get_report
-
 get_report().log(
     section="Base model loss",
     data=[

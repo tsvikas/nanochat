@@ -28,6 +28,10 @@ import pytest
 import regex as re
 import requests
 import tiktoken
+from tokenizers import Regex, decoders, pre_tokenizers
+from tokenizers import Tokenizer as HFTokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
 
 import rustbpe
 
@@ -392,10 +396,6 @@ class FastRegexTokenizer:
 
 # -----------------------------------------------------------------------------
 # HuggingFace tokenizer
-from tokenizers import Regex, decoders, pre_tokenizers
-from tokenizers import Tokenizer as HFTokenizer
-from tokenizers.models import BPE
-from tokenizers.trainers import BpeTrainer
 
 
 class HuggingFaceTokenizer:

@@ -7,7 +7,16 @@ Two implementations are available:
 """
 
 import copy
+import pickle
 from functools import lru_cache
+
+import tiktoken
+from tokenizers import Regex, decoders, pre_tokenizers
+from tokenizers import Tokenizer as HFTokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+
+import rustbpe
 
 SPECIAL_TOKENS = [
     # every document begins with the Beginning of Sequence (BOS) token that delimits documents
@@ -30,10 +39,6 @@ SPLIT_PATTERN = r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}+|\p{N}{1,2}| 
 
 # -----------------------------------------------------------------------------
 # Generic GPT-4-style tokenizer based on HuggingFace Tokenizer
-from tokenizers import Regex, decoders, pre_tokenizers
-from tokenizers import Tokenizer as HFTokenizer
-from tokenizers.models import BPE
-from tokenizers.trainers import BpeTrainer
 
 
 class HuggingFaceTokenizer:
@@ -161,11 +166,6 @@ class HuggingFaceTokenizer:
 
 # -----------------------------------------------------------------------------
 # Tokenizer based on rustbpe + tiktoken combo
-import pickle
-
-import tiktoken
-
-import rustbpe
 
 
 class RustBPETokenizer:

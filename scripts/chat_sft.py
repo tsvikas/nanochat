@@ -30,6 +30,7 @@ from nanochat.common import (
     print0,
 )
 from nanochat.engine import Engine
+from nanochat.report import get_report
 from scripts.chat_eval import run_chat_eval
 from tasks.arc import ARC
 from tasks.common import TaskMixture
@@ -351,8 +352,6 @@ if master_process:
     print(f"✅ Saved model checkpoint to {checkpoint_dir}")
 
 # Log to report
-from nanochat.report import get_report
-
 get_report().log(
     section="Chat SFT",
     data=[

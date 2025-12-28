@@ -32,6 +32,7 @@ from nanochat.common import (
     print0,
 )
 from nanochat.engine import Engine
+from nanochat.report import get_report
 from tasks.gsm8k import GSM8K
 
 # RL hyperparameters
@@ -408,8 +409,6 @@ for step in range(num_steps):
         print(f"✅ Saved model checkpoint to {checkpoint_dir}")
 
 # Log to report
-from nanochat.report import get_report
-
 get_report().log(
     section="Chat RL",
     data=[

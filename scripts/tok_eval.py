@@ -1,6 +1,7 @@
 """Evaluate compression ratio of the tokenizer."""
 
 from nanochat.dataset import parquets_iter_batched
+from nanochat.report import get_report
 from nanochat.tokenizer import RustBPETokenizer, get_tokenizer
 
 # Random text I got from a random website this morning
@@ -258,8 +259,6 @@ print_comparison(
 )
 
 # Log to report
-from nanochat.report import get_report
-
 lines = []
 for baseline_name in ["GPT-2", "GPT-4"]:
     baseline_key = baseline_name.lower().replace("-", "")
