@@ -17,7 +17,7 @@ def run_command(cmd):
     """Run a shell command and return output, or None if it fails."""
     try:
         result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, timeout=5
+            cmd, check=False, shell=True, capture_output=True, text=True, timeout=5
         )
         if result.returncode == 0:
             return result.stdout.strip()
