@@ -38,7 +38,7 @@ import random
 from contextlib import asynccontextmanager, nullcontext
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncGenerator, List
+from typing import AsyncGenerator
 
 import torch
 from fastapi import FastAPI, HTTPException
@@ -141,7 +141,7 @@ class WorkerPool:
             else:
                 num_gpus = 1  # e.g. cpu|mps
         self.num_gpus = num_gpus
-        self.workers: List[Worker] = []
+        self.workers: list[Worker] = []
         self.available_workers: asyncio.Queue = asyncio.Queue()
 
     async def initialize(
@@ -199,7 +199,7 @@ class ChatMessage(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    messages: List[ChatMessage]
+    messages: list[ChatMessage]
     temperature: float | None = None
     max_tokens: int | None = None
     top_k: int | None = None
