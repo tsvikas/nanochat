@@ -113,6 +113,7 @@ class TaskSequence(Task):
             if index < task_length:
                 return self.tasks[task_idx][index]
             index -= task_length
+        assert False
 
 
 def render_mc(question, letters, choices):
