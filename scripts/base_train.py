@@ -231,7 +231,7 @@ optimizers = model.setup_optimizers(
 adamw_optimizer, muon_optimizer = optimizers
 
 if resuming:
-    for opt, dat in zip(optimizers, optimizer_data):
+    for opt, dat in zip(optimizers, optimizer_data, strict=True):
         opt.load_state_dict(dat)
     del optimizer_data  # free up the memory
 

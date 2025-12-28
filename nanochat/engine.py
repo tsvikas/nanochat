@@ -255,7 +255,7 @@ class Engine:
         seed=42,
     ):
         """Same as generate, but does single prefill and then clones the KV cache."""
-        assert isinstance(tokens, list) and isinstance(tokens[0], int), (
+        assert isinstance(tokens, list) and tokens and isinstance(tokens[0], int), (
             "expecting list of ints"
         )
         device = self.model.get_device()
@@ -393,7 +393,9 @@ class Engine:
         masks = [[0] * len(tokens) for _ in range(num_samples)]
         completed = [False] * num_samples
         for token_column, token_masks in self.generate(tokens, num_samples, **kwargs):
-            for i, (token, mask) in enumerate(zip(token_column, token_masks)):
+            for i, (token, mask) in enumerate(
+                zip(token_column, token_masks, strict=True)
+            ):
                 if not completed[i]:
                     if token in (assistant_end, bos):
                         completed[i] = True

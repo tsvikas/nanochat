@@ -91,26 +91,23 @@ def download_single_file(index) -> bool:
                         f.write(chunk)
             # Move temp file to final location
             temp_path.rename(filepath)
-            print(f"Successfully downloaded {filename}")
-            return True
 
         except (OSError, requests.RequestException) as e:
             print(f"Attempt {attempt}/{max_attempts} failed for {filename}: {e}")
             # Clean up any partial files
             for path in [filepath.with_name(f"{filepath.name}.tmp"), filepath]:
-                try:
-                    path.unlink(missing_ok=True)
-                except:
-                    pass
+                path.unlink(missing_ok=True)
             # Try a few times with exponential backoff: 2^attempt seconds
             if attempt < max_attempts:
                 wait_time = 2**attempt
                 print(f"Waiting {wait_time} seconds before retry...")
                 time.sleep(wait_time)
-            else:
-                print(f"Failed to download {filename} after {max_attempts} attempts")
-                return False
 
+        else:
+            print(f"Successfully downloaded {filename}")
+            return True
+
+    print(f"Failed to download {filename} after {max_attempts} attempts")
     return False
 
 

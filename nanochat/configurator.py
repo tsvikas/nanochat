@@ -21,7 +21,7 @@ from pathlib import Path
 
 
 def print0(s="", **kwargs) -> None:
-    ddp_rank = int(os.environ.get("RANK", 0))
+    ddp_rank = int(os.environ.get("RANK", "0"))
     if ddp_rank == 0:
         print(s, **kwargs)
 

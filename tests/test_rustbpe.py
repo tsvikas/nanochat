@@ -95,7 +95,7 @@ class RegexTokenizer:
             vocab[idx] = special.encode("utf-8")
         return vocab
 
-    def train(self, text, vocab_size, verbose=False):
+    def train(self, text, vocab_size, *, verbose=False):
         assert vocab_size >= 256
         num_merges = vocab_size - 256
 
@@ -224,7 +224,7 @@ class FastRegexTokenizer:
             vocab[idx] = special.encode("utf-8")
         return vocab
 
-    def train(self, text, vocab_size, verbose=False) -> None:
+    def train(self, text, vocab_size, *, verbose=False) -> None:
         """
         A number of optimizations are introduced:
         - delete function call overhead by inlining functions
@@ -255,7 +255,9 @@ class FastRegexTokenizer:
             set
         )  # pair -> set of chunk indices that contain this pair
 
-        for chunk_idx, (chunk_ids, count) in enumerate(zip(ids, chunk_counts)):
+        for chunk_idx, (chunk_ids, count) in enumerate(
+            zip(ids, chunk_counts, strict=True)
+        ):
             for pair in itertools.pairwise(chunk_ids):
                 stats[pair] += count
                 positions[pair].add(chunk_idx)
@@ -467,7 +469,7 @@ def enwik8_path():
     if not enwik8_local_path.exists():
         print(f"Downloading enwik8 to {enwik8_local_path_zip}")
 
-        response = requests.get(enwik8_url)
+        response = requests.get(enwik8_url, timeout=10)
         with enwik8_local_path_zip.open("wb") as f:
             f.write(response.content)
         with zipfile.ZipFile(enwik8_local_path_zip, "r") as zip_ref:
@@ -564,7 +566,7 @@ def test_correctness(enwik8_small) -> None:
     # HuggingFace has a different byte order, so we need custom matching
     def custom_match(ids1, ids2) -> bool:
         perm = {}
-        for x, y in zip(ids1, ids2):
+        for x, y in zip(ids1, ids2, strict=True):
             if x < 256:
                 if x in perm and perm[x] != y:
                     return False

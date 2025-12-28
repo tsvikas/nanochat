@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def log0(message) -> None:
-    if int(os.environ.get("RANK", 0)) == 0:
+    if int(os.environ.get("RANK", "0")) == 0:
         logger.info(message)
 
 
@@ -43,7 +43,7 @@ def save_checkpoint(
         logger.info(f"Saved optimizer state to: {optimizer_path}")
 
 
-def load_checkpoint(checkpoint_dir, step, device, load_optimizer=False, rank=0):
+def load_checkpoint(checkpoint_dir, step, device, *, load_optimizer=False, rank=0):
     # Load the model state
     model_path = checkpoint_dir / f"model_{step:06d}.pt"
     model_data = torch.load(model_path, map_location=device)

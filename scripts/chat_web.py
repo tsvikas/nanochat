@@ -136,10 +136,7 @@ class WorkerPool:
 
     def __init__(self, num_gpus: int | None = None):
         if num_gpus is None:
-            if device_type == "cuda":
-                num_gpus = torch.cuda.device_count()
-            else:
-                num_gpus = 1  # e.g. cpu|mps
+            num_gpus = torch.cuda.device_count() if device_type == "cuda" else 1
         self.num_gpus = num_gpus
         self.workers: list[Worker] = []
         self.available_workers: asyncio.Queue = asyncio.Queue()
@@ -247,12 +244,13 @@ def validate_chat_request(request: ChatRequest) -> None:
             )
 
     # Validate temperature
-    if request.temperature is not None:
-        if not (MIN_TEMPERATURE <= request.temperature <= MAX_TEMPERATURE):
-            raise HTTPException(
-                status_code=400,
-                detail=f"Temperature must be between {MIN_TEMPERATURE} and {MAX_TEMPERATURE}",
-            )
+    if request.temperature is not None and not (
+        MIN_TEMPERATURE <= request.temperature <= MAX_TEMPERATURE
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Temperature must be between {MIN_TEMPERATURE} and {MAX_TEMPERATURE}",
+        )
 
     # Validate top_k
     if request.top_k is not None and not (MIN_TOP_K <= request.top_k <= MAX_TOP_K):
@@ -262,12 +260,13 @@ def validate_chat_request(request: ChatRequest) -> None:
         )
 
     # Validate max_tokens
-    if request.max_tokens is not None:
-        if not (MIN_MAX_TOKENS <= request.max_tokens <= MAX_MAX_TOKENS):
-            raise HTTPException(
-                status_code=400,
-                detail=f"max_tokens must be between {MIN_MAX_TOKENS} and {MAX_MAX_TOKENS}",
-            )
+    if request.max_tokens is not None and not (
+        MIN_MAX_TOKENS <= request.max_tokens <= MAX_MAX_TOKENS
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail=f"max_tokens must be between {MIN_MAX_TOKENS} and {MAX_MAX_TOKENS}",
+        )
 
 
 @asynccontextmanager

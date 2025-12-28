@@ -22,7 +22,7 @@ def run_command(cmd):
         if result.returncode == 0:
             return result.stdout.strip()
         return None
-    except:
+    except Exception:
         return None
 
 
@@ -123,7 +123,9 @@ def estimate_cost(gpu_info, runtime_hours=None):
 
 def generate_header():
     """Generate the header for a training report."""
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = (
+        datetime.datetime.now(tz=datetime.timezone.utc).astimezone().isoformat(sep=" ")
+    )
 
     git_info = get_git_info()
     gpu_info = get_gpu_info()
@@ -239,8 +241,8 @@ def extract_timestamp(content, prefix):
         if line.startswith(prefix):
             time_str = line.split(":", 1)[1].strip()
             try:
-                return datetime.datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
-            except:
+                return datetime.datetime.fromisoformat(time_str)
+            except Exception:
                 pass
     return None
 
@@ -260,7 +262,7 @@ class Report:
         with file_path.open("w", encoding="utf-8") as f:
             f.write(f"## {section}\n")
             f.write(
-                f"timestamp: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"timestamp: {datetime.datetime.now(tz=datetime.timezone.utc).astimezone().isoformat(sep=' ')}\n\n"
             )
             for item in data:
                 if not item:
@@ -359,7 +361,7 @@ class Report:
             out_file.write(header + "\n")
             # Write separator
             separator = f"|{'-' * (metric_width + 2)}|"
-            for stage in stages:
+            for _stage in stages:
                 separator += f"{'-' * (value_width + 2)}|"
             out_file.write(separator + "\n")
             # Write table rows
@@ -396,7 +398,11 @@ class Report:
         # Generate and write the header section with start timestamp
         header_file = self.report_dir / "header.md"
         header = generate_header()
-        start_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        start_time = (
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            .astimezone()
+            .isoformat(sep=" ")
+        )
         with header_file.open("w", encoding="utf-8") as f:
             f.write(header)
             f.write(f"Run started: {start_time}\n\n---\n\n")

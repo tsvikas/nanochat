@@ -326,7 +326,6 @@ for step in range(num_iterations):
             "num_tokens": num_tokens_item,
         }
     )
-    step += 1
 
 # Save the model at the end of the run
 if master_process:

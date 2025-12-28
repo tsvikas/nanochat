@@ -99,7 +99,7 @@ class Muon(torch.optim.Optimizer):
 
 class DistMuon(torch.optim.Optimizer):
     """
-    Muon: SGD-momentum + (optional) Nesterov, then orthogonalize the 2D update via Newton–Schulz,
+    Muon: SGD-momentum + (optional) Nesterov, then orthogonalize the 2D update via Newton--Schulz,
     finally apply aspect-ratio scaled step. Performs its own distributed synchronization:
       - reduce_scatter(AVG) for gradient averaging
       - all_gather to replicate updated weights.
@@ -116,7 +116,7 @@ class DistMuon(torch.optim.Optimizer):
         lr: learning rate
         momentum: momentum coefficient in [0,1)
         nesterov: if True, Nesterov-style update (g <- lerp(g, buf, momentum)); else use buf
-        ns_steps: number of Newton–Schulz iterations for the orthogonalization
+        ns_steps: number of Newton--Schulz iterations for the orthogonalization
 
     """
 

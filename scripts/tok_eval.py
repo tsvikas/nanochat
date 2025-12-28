@@ -276,7 +276,7 @@ for baseline_name in ["GPT-2", "GPT-4"]:
     lines.append(
         "|-----------|-------|--------------|--------------|-------------|------------|-----------------|"
     )
-    for name, text in all_text:
+    for name, _text in all_text:
         baseline_data = baseline_results[name]
         ours_data = ours_results[name]
         relative_diff = (

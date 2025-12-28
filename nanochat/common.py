@@ -114,7 +114,7 @@ def download_file_with_lock(url, filename, postprocess_fn=None):
 
 
 def print0(s="", **kwargs) -> None:
-    ddp_rank = int(os.environ.get("RANK", 0))
+    ddp_rank = int(os.environ.get("RANK", "0"))
     if ddp_rank == 0:
         print(s, **kwargs)
 
@@ -135,8 +135,8 @@ def print_banner() -> None:
 
 
 def is_ddp():
-    # TODO is there a proper way
-    return int(os.environ.get("RANK", -1)) != -1
+    # TODO: is there a proper way
+    return int(os.environ.get("RANK", "-1")) != -1
 
 
 def get_dist_info():

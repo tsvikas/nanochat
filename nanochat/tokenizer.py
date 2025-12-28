@@ -148,7 +148,7 @@ class HuggingFaceTokenizer:
         elif isinstance(text, list):
             return [self._encode_one(t, *args, **kwargs) for t in text]
         else:
-            raise ValueError(f"Invalid input type: {type(text)}")
+            raise TypeError(f"Invalid input type: {type(text)}")
 
     def __call__(self, *args, **kwargs):
         return self.encode(*args, **kwargs)
@@ -263,7 +263,7 @@ class RustBPETokenizer:
                 for ids_row in ids:
                     ids_row.append(append_id)
         else:
-            raise ValueError(f"Invalid input type: {type(text)}")
+            raise TypeError(f"Invalid input type: {type(text)}")
 
         return ids
 
@@ -389,14 +389,14 @@ class RustBPETokenizer:
         mask = mask[:max_tokens]
         return ids, mask
 
-    def visualize_tokenization(self, ids, mask, with_token_id=False):
+    def visualize_tokenization(self, ids, mask, *, with_token_id=False):
         """Small helper function useful in debugging: visualize the tokenization of render_conversation."""
         RED = "\033[91m"
         GREEN = "\033[92m"
         RESET = "\033[0m"
         GRAY = "\033[90m"
         tokens = []
-        for _i, (token_id, mask_val) in enumerate(zip(ids, mask)):
+        for _i, (token_id, mask_val) in enumerate(zip(ids, mask, strict=True)):
             token_str = self.decode([token_id])
             color = GREEN if mask_val == 1 else RED
             tokens.append(f"{color}{token_str}{RESET}")

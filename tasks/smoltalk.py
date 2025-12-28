@@ -32,10 +32,8 @@ class SmolTalk(Task):
         # there is an optional system message at the beginning
         assert len(messages) >= 1
         first_message = messages[0]
-        if first_message["role"] == "system":
-            rest_messages = messages[1:]  # optional system message is OK
-        else:
-            rest_messages = messages
+        # optional system message is OK
+        rest_messages = messages[1:] if first_message["role"] == "system" else messages
         assert len(rest_messages) >= 2, (
             "SmolTalk messages must have at least 2 messages"
         )
