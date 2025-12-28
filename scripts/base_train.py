@@ -247,9 +247,14 @@ train_loader = tokenizing_distributed_data_loader_with_state(
     device=device,
     resume_state_dict=dataloader_resume_state_dict,
 )
-build_val_loader = lambda: tokenizing_distributed_data_loader(
-    device_batch_size, max_seq_len, split="val", device=device
-)
+
+
+def build_val_loader():
+    return tokenizing_distributed_data_loader(
+        device_batch_size, max_seq_len, split="val", device=device
+    )
+
+
 x, y, dataloader_state_dict = next(
     train_loader
 )  # kick off load of the very first batch of data

@@ -263,7 +263,8 @@ class Engine:
         rng.manual_seed(seed)
 
         # Get the special tokens we need to coordinate the tool use state machine
-        get_special = lambda s: self.tokenizer.encode_special(s)
+        get_special = self.tokenizer.encode_special
+
         python_start = get_special("<|python_start|>")
         python_end = get_special("<|python_end|>")
         output_start = get_special("<|output_start|>")

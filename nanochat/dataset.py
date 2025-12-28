@@ -24,9 +24,12 @@ BASE_URL = (
     "https://huggingface.co/datasets/karpathy/fineweb-edu-100b-shuffle/resolve/main"
 )
 MAX_SHARD = 1822  # the last datashard is shard_01822.parquet
-index_to_filename = (
-    lambda index: f"shard_{index:05d}.parquet"
-)  # format of the filenames
+
+
+def index_to_filename(index):
+    return f"shard_{index:05d}.parquet"  # format of the filenames
+
+
 base_dir = get_base_dir()
 DATA_DIR = base_dir / "base_data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)

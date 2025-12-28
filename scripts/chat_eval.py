@@ -11,6 +11,7 @@ torchrun --nproc_per_node=8 -m scripts.chat_eval -- -a ARC-Easy
 import argparse
 from contextlib import nullcontext
 from functools import partial
+from math import ceil
 
 import torch
 import torch.distributed as dist
@@ -129,8 +130,8 @@ def run_categorical_eval(task_object, tokenizer, model, batch_size, max_problems
         if max_problems is None
         else min(len(task_object), max_problems)
     )
-    ceil_div = lambda x, y: -(-x // y)
-    num_batches = ceil_div(num_problems, batch_size)
+
+    num_batches = ceil(num_problems / batch_size)
 
     # Run the evaluation
     letter_to_id_cache = {}  # many letters will repeat often, let's save the tokenizer some work
