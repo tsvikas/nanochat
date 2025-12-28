@@ -102,16 +102,16 @@ class TimeoutException(Exception):
 class WriteOnlyStringIO(io.StringIO):
     """StringIO that throws an exception when it's read from."""
 
-    def read(self, *args, **kwargs) -> NoReturn:
+    def read(self, *args, **kwargs) -> NoReturn:  # noqa: ARG002
         raise OSError
 
-    def readline(self, *args, **kwargs) -> NoReturn:
+    def readline(self, *args, **kwargs) -> NoReturn:  # noqa: ARG002
         raise OSError
 
-    def readlines(self, *args, **kwargs) -> NoReturn:
+    def readlines(self, *args, **kwargs) -> NoReturn:  # noqa: ARG002
         raise OSError
 
-    def readable(self, *args, **kwargs) -> bool:
+    def readable(self, *args, **kwargs) -> bool:  # noqa: ARG002
         """Returns True if the IO object can be read."""
         return False
 
