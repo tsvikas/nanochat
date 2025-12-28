@@ -11,15 +11,17 @@ Notes:
 The whole thing is made as efficient as possible.
 """
 
-import torch
-import torch.nn.functional as F
 import signal
 import warnings
-from contextlib import contextmanager
 from collections import deque
-from nanochat.common import compute_init, autodetect_device_type
+from contextlib import contextmanager, nullcontext
+
+import torch
+import torch.nn.functional as F
+
 from nanochat.checkpoint_manager import load_model
-from contextlib import nullcontext 
+from nanochat.common import autodetect_device_type, compute_init
+
 
 # -----------------------------------------------------------------------------
 # Calculator tool helpers

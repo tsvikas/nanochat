@@ -30,10 +30,11 @@ SPLIT_PATTERN = r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}+|\p{N}{1,2}| 
 
 # -----------------------------------------------------------------------------
 # Generic GPT-4-style tokenizer based on HuggingFace Tokenizer
+from tokenizers import Regex, decoders, pre_tokenizers
 from tokenizers import Tokenizer as HFTokenizer
-from tokenizers import pre_tokenizers, decoders, Regex
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
+
 
 class HuggingFaceTokenizer:
     """Light wrapper around HuggingFace Tokenizer for some utilities"""
@@ -148,8 +149,11 @@ class HuggingFaceTokenizer:
 # -----------------------------------------------------------------------------
 # Tokenizer based on rustbpe + tiktoken combo
 import pickle
-import rustbpe
+
 import tiktoken
+
+import rustbpe
+
 
 class RustBPETokenizer:
     """Light wrapper around tiktoken (for efficient inference) but train with rustbpe"""
@@ -387,6 +391,7 @@ def get_tokenizer():
 
 def get_token_bytes(device="cpu"):
     import torch
+
     from nanochat.common import get_base_dir
     base_dir = get_base_dir()
     tokenizer_dir = base_dir / "tokenizer"

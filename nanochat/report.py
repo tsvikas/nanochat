@@ -2,16 +2,18 @@
 Utilities for generating training report cards. More messy code than usual, will fix.
 """
 
+import datetime
 import os
+import platform
 import re
 import shutil
-import subprocess
 import socket
-import datetime
-import platform
+import subprocess
 from pathlib import Path
+
 import psutil
 import torch
+
 
 def run_command(cmd):
     """Run a shell command and return output, or None if it fails."""

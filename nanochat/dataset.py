@@ -9,9 +9,10 @@ For details of how the dataset was prepared, see `repackage_data_reference.py`.
 
 import argparse
 import time
-import requests
-import pyarrow.parquet as pq
 from multiprocessing import Pool
+
+import pyarrow.parquet as pq
+import requests
 
 from nanochat.common import get_base_dir
 

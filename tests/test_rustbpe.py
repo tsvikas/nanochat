@@ -18,12 +18,14 @@ python -m pytest tests/test_rustbpe.py -v -s
 -v is verbose, -s is show prints
 """
 
-import regex as re
-from collections import Counter, defaultdict
 import time
-import rustbpe
-import tiktoken
+from collections import Counter, defaultdict
+
 import pytest
+import regex as re
+import tiktoken
+
+import rustbpe
 
 GPT4_SPLIT_PATTERN = r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]++[\r\n]*|\s*[\r\n]|\s+(?!\S)|\s+"""
 
@@ -374,10 +376,11 @@ class FastRegexTokenizer:
 
 # -----------------------------------------------------------------------------
 # HuggingFace tokenizer
+from tokenizers import Regex, decoders, pre_tokenizers
 from tokenizers import Tokenizer as HFTokenizer
-from tokenizers import pre_tokenizers, decoders, Regex
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
+
 
 class HuggingFaceTokenizer:
     """Light wrapper around HuggingFace Tokenizer for some utilities"""
@@ -429,6 +432,7 @@ class HuggingFaceTokenizer:
 def enwik8_path():
     """Fixture to download and cache enwik8 dataset."""
     import zipfile
+
     from nanochat.common import get_base_dir
     base_dir = get_base_dir()
     # download and unzip enwik8 to .cache directory
@@ -596,6 +600,7 @@ def test_training_performance(enwik8_large):
 def test_interface(enwik8_small):
     """Test the RustBPETokenizer interface for training, encoding, decoding, and serialization."""
     import tempfile
+
     from nanochat.tokenizer import RustBPETokenizer
 
     # Simple train test
