@@ -38,7 +38,7 @@ import random
 from contextlib import asynccontextmanager, nullcontext
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncGenerator, List, Optional
+from typing import AsyncGenerator, List
 
 import torch
 from fastapi import FastAPI, HTTPException
@@ -134,7 +134,7 @@ class Worker:
 class WorkerPool:
     """Pool of workers, each with a model replica on a different GPU."""
 
-    def __init__(self, num_gpus: Optional[int] = None):
+    def __init__(self, num_gpus: int | None = None):
         if num_gpus is None:
             if device_type == "cuda":
                 num_gpus = torch.cuda.device_count()
@@ -145,7 +145,7 @@ class WorkerPool:
         self.available_workers: asyncio.Queue = asyncio.Queue()
 
     async def initialize(
-        self, source: str, model_tag: Optional[str] = None, step: Optional[int] = None
+        self, source: str, model_tag: str | None = None, step: int | None = None
     ):
         """Load model on each GPU."""
         print(f"Initializing worker pool with {self.num_gpus} GPUs...")
@@ -200,9 +200,9 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
-    temperature: Optional[float] = None
-    max_tokens: Optional[int] = None
-    top_k: Optional[int] = None
+    temperature: float | None = None
+    max_tokens: int | None = None
+    top_k: int | None = None
 
 
 def validate_chat_request(request: ChatRequest):

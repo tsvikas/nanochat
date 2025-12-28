@@ -31,7 +31,6 @@ import signal
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 # -----------------------------------------------------------------------------
 
@@ -43,7 +42,7 @@ class ExecutionResult:
     success: bool
     stdout: str
     stderr: str
-    error: Optional[str] = None
+    error: str | None = None
     timeout: bool = False
     memory_exceeded: bool = False
 
@@ -134,7 +133,7 @@ def chdir(root):
         os.chdir(cwd)
 
 
-def reliability_guard(maximum_memory_bytes: Optional[int] = None):
+def reliability_guard(maximum_memory_bytes: int | None = None):
     """
     This disables various destructive functions and prevents the generated code
     from interfering with the test (e.g. fork bomb, killing other processes,
@@ -222,7 +221,7 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
 
 
 def _unsafe_execute(
-    code: str, timeout: float, maximum_memory_bytes: Optional[int], result_dict
+    code: str, timeout: float, maximum_memory_bytes: int | None, result_dict
 ):
     """Execute code in a subprocess with safety guards. Results are written to result_dict."""
     with create_tempdir():
@@ -307,7 +306,7 @@ def _unsafe_execute(
 def execute_code(
     code: str,
     timeout: float = 5.0,  # 5 seconds default
-    maximum_memory_bytes: Optional[int] = 256 * 1024 * 1024,  # 256MB default
+    maximum_memory_bytes: int | None = 256 * 1024 * 1024,  # 256MB default
 ) -> ExecutionResult:
     r"""
     Execute Python code in a sandboxed environment.
