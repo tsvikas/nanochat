@@ -561,7 +561,7 @@ def test_correctness(enwik8_small) -> None:
     print(hf_ids[:20])
 
     # HuggingFace has a different byte order, so we need custom matching
-    def custom_match(ids1, ids2):
+    def custom_match(ids1, ids2) -> bool:
         perm = {}
         for x, y in zip(ids1, ids2):
             if x < 256:

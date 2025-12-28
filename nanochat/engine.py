@@ -16,6 +16,7 @@ import signal
 import warnings
 from collections import deque
 from contextlib import contextmanager, nullcontext
+from typing import NoReturn
 
 import torch
 import torch.nn.functional as F
@@ -28,7 +29,7 @@ from nanochat.common import autodetect_device_type, compute_init
 # Calculator tool helpers
 @contextmanager
 def timeout(duration, formula):
-    def timeout_handler(signum, frame):
+    def timeout_handler(signum, frame) -> NoReturn:
         raise Exception(f"'{formula}': timed out after {duration} seconds")
 
     signal.signal(signal.SIGALRM, timeout_handler)

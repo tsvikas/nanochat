@@ -293,7 +293,7 @@ class RustBPETokenizer:
         # ids, masks that we will return and a helper function to help build them up.
         ids, mask = [], []
 
-        def add_tokens(token_ids, mask_val):
+        def add_tokens(token_ids, mask_val) -> None:
             if isinstance(token_ids, int):
                 token_ids = [token_ids]
             ids.extend(token_ids)

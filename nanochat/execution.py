@@ -66,7 +66,7 @@ class ExecutionResult:
 
 @contextlib.contextmanager
 def time_limit(seconds: float):
-    def signal_handler(signum, frame):
+    def signal_handler(signum, frame) -> NoReturn:
         raise TimeoutException("Timed out!")
 
     signal.setitimer(signal.ITIMER_REAL, seconds)
@@ -223,7 +223,7 @@ def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
 
 def _unsafe_execute(
     code: str, timeout: float, maximum_memory_bytes: int | None, result_dict
-):
+) -> None:
     """Execute code in a subprocess with safety guards. Results are written to result_dict."""
     with create_tempdir():
         # These system calls are needed when cleaning up tempdir.

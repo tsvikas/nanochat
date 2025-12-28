@@ -30,7 +30,7 @@ def test_kv_cache_resize() -> None:
     )
 
     # Insert a single token with a distinct fill value to all layers
-    def insert_token(token_idx):
+    def insert_token(token_idx) -> None:
         for layer_idx in range(num_layers):
             k = torch.full(
                 (batch_size, num_heads, 1, head_dim),
