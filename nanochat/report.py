@@ -18,12 +18,15 @@ import torch
 def run_command(cmd):
     """Run a shell command and return output, or None if it fails."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=5)
+        result = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, timeout=5
+        )
         if result.returncode == 0:
             return result.stdout.strip()
         return None
     except:
         return None
+
 
 def get_git_info():
     """Get current git commit, branch, and dirty status."""
@@ -40,6 +43,7 @@ def get_git_info():
     info['message'] = info['message'].split('\n')[0][:80]  # First line, truncated
 
     return info
+
 
 def get_gpu_info():
     """Get GPU information."""
@@ -64,6 +68,7 @@ def get_gpu_info():
 
     return info
 
+
 def get_system_info():
     """Get system information."""
     info = {}
@@ -85,6 +90,7 @@ def get_system_info():
     info['working_dir'] = Path.cwd()
 
     return info
+
 
 def estimate_cost(gpu_info, runtime_hours=None):
     """Estimate training cost based on GPU type and runtime."""
@@ -116,6 +122,7 @@ def estimate_cost(gpu_info, runtime_hours=None):
         "gpu_type": gpu_name,
         "estimated_total": hourly_rate * runtime_hours if runtime_hours else None,
     }
+
 
 def generate_header():
     """Generate the header for a training report."""
@@ -164,11 +171,13 @@ Generated: {timestamp}
 """
 
     # bloat metrics: package all of the source code and assess its weight
-    packaged = run_command('files-to-prompt . -e py -e md -e rs -e html -e toml -e sh --ignore "*target*" --cxml')
+    packaged = run_command(
+        'files-to-prompt . -e py -e md -e rs -e html -e toml -e sh --ignore "*target*" --cxml'
+    )
     num_chars = len(packaged)
     num_lines = len(packaged.split('\n'))
     num_files = len([x for x in packaged.split('\n') if x.startswith('<source>')])
-    num_tokens = num_chars // 4 # assume approximately 4 chars per token
+    num_tokens = num_chars // 4  # assume approximately 4 chars per token
 
     # count dependencies via uv.lock
     uv_lock_lines = 0
@@ -188,11 +197,14 @@ Generated: {timestamp}
 """
     return header
 
+
 # -----------------------------------------------------------------------------
+
 
 def slugify(text):
     """Slugify a text string."""
     return text.lower().replace(" ", "-")
+
 
 # the expected files and their order
 EXPECTED_FILES = [
@@ -211,16 +223,18 @@ EXPECTED_FILES = [
 # the metrics we're currently interested in
 chat_metrics = ["ARC-Easy", "ARC-Challenge", "MMLU", "GSM8K", "HumanEval", "ChatCORE"]
 
+
 def extract(section, keys):
     """simple def to extract a single key from a section"""
     if not isinstance(keys, list):
-        keys = [keys] # convenience
+        keys = [keys]  # convenience
     out = {}
     for line in section.split("\n"):
         for key in keys:
             if key in line:
                 out[key] = line.split(":")[1].strip()
     return out
+
 
 def extract_timestamp(content, prefix):
     """Extract timestamp from content with given prefix."""
@@ -232,6 +246,7 @@ def extract_timestamp(content, prefix):
             except:
                 pass
     return None
+
 
 class Report:
     """Maintains a bunch of logs, generates a final markdown report."""
@@ -247,7 +262,9 @@ class Report:
         file_path = self.report_dir / file_name
         with file_path.open("w", encoding="utf-8") as f:
             f.write(f"## {section}\n")
-            f.write(f"timestamp: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(
+                f"timestamp: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+            )
             for item in data:
                 if not item:
                     # skip falsy values like None or empty dict etc.
@@ -273,7 +290,7 @@ class Report:
         report_dir = self.report_dir
         report_file = report_dir / "report.md"
         print(f"Generating report to {report_file}")
-        final_metrics = {} # the most important final metrics we'll add as table at the end
+        final_metrics = {}  # the most important final metrics we'll add as table at the end
         start_time = None
         end_time = None
         with report_file.open("w", encoding="utf-8") as out_file:
@@ -284,12 +301,18 @@ class Report:
                 out_file.write(header_content)
                 start_time = extract_timestamp(header_content, "Run started:")
                 # capture bloat data for summary later (the stuff after Bloat header and until \n\n)
-                bloat_data = re.search(r"### Bloat\n(.*?)\n\n", header_content, re.DOTALL)
+                bloat_data = re.search(
+                    r"### Bloat\n(.*?)\n\n", header_content, re.DOTALL
+                )
                 bloat_data = bloat_data.group(1) if bloat_data else ""
             else:
-                start_time = None # will cause us to not write the total wall clock time
+                start_time = (
+                    None  # will cause us to not write the total wall clock time
+                )
                 bloat_data = "[bloat data missing]"
-                print(f"Warning: {header_file} does not exist. Did you forget to run `nanochat reset`?")
+                print(
+                    f"Warning: {header_file} does not exist. Did you forget to run `nanochat reset`?"
+                )
             # process all the individual sections
             for file_name in EXPECTED_FILES:
                 section_file = report_dir / file_name
@@ -309,7 +332,9 @@ class Report:
                 if file_name == "chat-evaluation-sft.md":
                     final_metrics["sft"] = extract(section, chat_metrics)
                 if file_name == "chat-evaluation-rl.md":
-                    final_metrics["rl"] = extract(section, "GSM8K") # RL only evals GSM8K
+                    final_metrics["rl"] = extract(
+                        section, "GSM8K"
+                    )  # RL only evals GSM8K
                 # append this section of the report
                 out_file.write(section)
                 out_file.write("\n")
@@ -323,7 +348,9 @@ class Report:
             for stage_metrics in final_metrics.values():
                 all_metrics.update(stage_metrics.keys())
             # Custom ordering: CORE first, ChatCORE last, rest in middle
-            all_metrics = sorted(all_metrics, key=lambda x: (x != "CORE", x == "ChatCORE", x))
+            all_metrics = sorted(
+                all_metrics, key=lambda x: (x != "CORE", x == "ChatCORE", x)
+            )
             # Fixed column widths
             stages = ["base", "mid", "sft", "rl"]
             metric_width = 15
@@ -378,18 +405,23 @@ class Report:
             f.write(f"Run started: {start_time}\n\n---\n\n")
         print(f"Reset report and wrote header to {header_file}")
 
+
 # -----------------------------------------------------------------------------
 # nanochat-specific convenience functions
+
 
 class DummyReport:
     def log(self, *args, **kwargs):
         pass
+
     def reset(self, *args, **kwargs):
         pass
+
 
 def get_report():
     # just for convenience, only rank 0 logs to report
     from nanochat.common import get_base_dir, get_dist_info
+
     ddp, ddp_rank, ddp_local_rank, ddp_world_size = get_dist_info()
     if ddp_rank == 0:
         report_dir = get_base_dir() / "report"
@@ -397,10 +429,20 @@ def get_report():
     else:
         return DummyReport()
 
+
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Generate or reset nanochat training reports.")
-    parser.add_argument("command", nargs="?", default="generate", choices=["generate", "reset"], help="Operation to perform (default: generate)")
+
+    parser = argparse.ArgumentParser(
+        description="Generate or reset nanochat training reports."
+    )
+    parser.add_argument(
+        "command",
+        nargs="?",
+        default="generate",
+        choices=["generate", "reset"],
+        help="Operation to perform (default: generate)",
+    )
     args = parser.parse_args()
     if args.command == "generate":
         get_report().generate()

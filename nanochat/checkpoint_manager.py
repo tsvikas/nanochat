@@ -1,6 +1,7 @@
 """
 Utilities for saving and loading model/optim/state checkpoints.
 """
+
 import json
 import logging
 import os
@@ -15,11 +16,16 @@ from nanochat.tokenizer import get_tokenizer
 # Set up logging
 setup_default_logging()
 logger = logging.getLogger(__name__)
+
+
 def log0(message):
     if int(os.environ.get('RANK', 0)) == 0:
         logger.info(message)
 
-def save_checkpoint(checkpoint_dir, step, model_data, optimizer_data, meta_data, rank=0):
+
+def save_checkpoint(
+    checkpoint_dir, step, model_data, optimizer_data, meta_data, rank=0
+):
     if rank == 0:
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         # Save the model state parameters
@@ -37,6 +43,7 @@ def save_checkpoint(checkpoint_dir, step, model_data, optimizer_data, meta_data,
         optimizer_path = checkpoint_dir / f"optim_{step:06d}_rank{rank:d}.pt"
         torch.save(optimizer_data, optimizer_path)
         logger.info(f"Saved optimizer state to: {optimizer_path}")
+
 
 def load_checkpoint(checkpoint_dir, step, device, load_optimizer=False, rank=0):
     # Load the model state
@@ -63,7 +70,9 @@ def build_model(checkpoint_dir, step, device, phase):
     - meta data saved during base model training
     """
     assert phase in ["train", "eval"], f"Invalid phase: {phase}"
-    model_data, optimizer_data, meta_data = load_checkpoint(checkpoint_dir, step, device, load_optimizer=False)
+    model_data, optimizer_data, meta_data = load_checkpoint(
+        checkpoint_dir, step, device, load_optimizer=False
+    )
     if device.type in {"cpu", "mps"}:
         # Convert bfloat16 tensors to float for CPU inference
         model_data = {
@@ -79,7 +88,7 @@ def build_model(checkpoint_dir, step, device, phase):
         model = GPT(model_config)
     # Load the model state
     model.to_empty(device=device)
-    model.init_weights() # note: this is dumb, but we need to init the rotary embeddings. TODO: fix model re-init
+    model.init_weights()  # note: this is dumb, but we need to init the rotary embeddings. TODO: fix model re-init
     model.load_state_dict(model_data, strict=True, assign=True)
     # Put the model in the right training phase / mode
     if phase == "eval":
@@ -121,8 +130,10 @@ def find_last_step(checkpoint_dir):
     last_step = int(max(f.stem.split("_")[-1] for f in checkpoint_files))
     return last_step
 
+
 # -----------------------------------------------------------------------------
 # convenience functions that take into account nanochat's directory structure
+
 
 def load_model_from_dir(checkpoints_dir, device, phase, model_tag=None, step=None):
     if model_tag is None:
@@ -138,6 +149,7 @@ def load_model_from_dir(checkpoints_dir, device, phase, model_tag=None, step=Non
     log0(f"Loading model from {checkpoint_dir} with step {step}")
     model, tokenizer, meta_data = build_model(checkpoint_dir, step, device, phase)
     return model, tokenizer, meta_data
+
 
 def load_model(source, *args, **kwargs):
     model_dir = {

@@ -24,6 +24,7 @@ def extract_imports(prompt):
             break
     return '\n'.join(imports)
 
+
 def extract_program(completion):
     """
     Extract Python code from LLM completion.
@@ -47,8 +48,8 @@ def extract_program(completion):
     # No code blocks found, return the whole completion
     return completion.strip()
 
-class HumanEval(Task):
 
+class HumanEval(Task):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.ds = load_dataset("openai/openai_humaneval", split="test").shuffle(seed=42)
@@ -61,12 +62,12 @@ class HumanEval(Task):
         return len(self.ds)
 
     def get_example(self, index):
-        """ Get a single problem from the dataset. """
+        """Get a single problem from the dataset."""
         row = self.ds[index]
-        prompt = row['prompt'] # prompts in HumanEval are the beginning of the program
-        solution = row['canonical_solution'] # the correct continuation of the program
-        entry_point = row['entry_point'] # the function to check
-        test = row['test'] # the test cases
+        prompt = row['prompt']  # prompts in HumanEval are the beginning of the program
+        solution = row['canonical_solution']  # the correct continuation of the program
+        entry_point = row['entry_point']  # the function to check
+        test = row['test']  # the test cases
         complete_solution = f"{prompt}\n{solution}"
         messages = [
             {"role": "user", "content": prompt},
@@ -74,13 +75,13 @@ class HumanEval(Task):
         ]
         conversation = {
             "messages": messages,
-            "entry_point": entry_point, # needed during evaluation
-            "test": test, # needed during evaluation
+            "entry_point": entry_point,  # needed during evaluation
+            "test": test,  # needed during evaluation
         }
         return conversation
 
     def evaluate(self, conversation, completion):
-        """ Given (conversation, completion), return boolean success of the completion. """
+        """Given (conversation, completion), return boolean success of the completion."""
         # the prompt will contain the imports and the function signature
         imports = extract_imports(conversation['messages'][0]['content'])
         # the completion will usually contain the whole function
