@@ -1,7 +1,7 @@
 """
 Sandboxed execution utilities for running Python code that comes out of an LLM.
 Adapted from OpenAI HumanEval code:
-https://github.com/openai/human-eval/blob/master/human_eval/execution.py
+https://github.com/openai/human-eval/blob/master/human_eval/execution.py.
 
 What is covered:
 - Each execution runs in its own process (can be killed if it hangs or crashes)
@@ -101,7 +101,7 @@ class TimeoutException(Exception):
 
 
 class WriteOnlyStringIO(io.StringIO):
-    """StringIO that throws an exception when it's read from"""
+    """StringIO that throws an exception when it's read from."""
 
     def read(self, *args, **kwargs):
         raise IOError
@@ -138,7 +138,7 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
     """
     This disables various destructive functions and prevents the generated code
     from interfering with the test (e.g. fork bomb, killing other processes,
-    removing filesystem files, etc.)
+    removing filesystem files, etc.).
 
     Warning:
     This function is NOT a security sandbox. Untrusted code, including, model-

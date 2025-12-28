@@ -52,7 +52,7 @@ def eval_with_timeout(formula, max_time=3):
 def use_calculator(expr):
     """
     Evaluate a Python expression safely.
-    Supports both math expressions and string operations like .count()
+    Supports both math expressions and string operations like .count().
     """
     # Remove commas from numbers
     expr = expr.replace(",", "")

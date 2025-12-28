@@ -37,7 +37,7 @@ def get_stats(ids, counts=None):
     """
     Given a list of integers, return a dictionary of counts of consecutive pairs
     Example: [1, 2, 3, 1, 2] -> {(1, 2): 2, (2, 3): 1, (3, 1): 1}
-    Optionally allows to update an existing dictionary of counts
+    Optionally allows to update an existing dictionary of counts.
     """
     counts = {} if counts is None else counts
     for pair in zip(ids, ids[1:]):  # iterate consecutive elements
@@ -49,7 +49,7 @@ def merge(ids, pair, idx):
     """
     In the list of integers (ids), replace all consecutive occurrences
     of pair with the new integer token idx
-    Example: ids=[1, 2, 3, 1, 2], pair=(1, 2), idx=4 -> [4, 3, 4]
+    Example: ids=[1, 2, 3, 1, 2], pair=(1, 2), idx=4 -> [4, 3, 4].
     """
     newids = []
     i = 0
@@ -69,7 +69,7 @@ class RegexTokenizer:
         """
         - pattern: optional string to override the default (GPT-4 split pattern)
         - special_tokens: str -> int dictionary of special tokens
-          example: {'<|endoftext|>': 100257}
+          example: {'<|endoftext|>': 100257}.
         """
         self.pattern = GPT4_SPLIT_PATTERN if pattern is None else pattern
         self.merges = {}  # (int, int) -> int
@@ -180,7 +180,7 @@ def fast_merge_inplace(ids, pair, idx):
     """
     In the list of integers (ids), replace all consecutive occurrences
     of pair with the new integer token idx in place
-    Example: ids=[1, 2, 3, 1, 2], pair=(1, 2), idx=4 -> [4, 3, 4]
+    Example: ids=[1, 2, 3, 1, 2], pair=(1, 2), idx=4 -> [4, 3, 4].
     """
     # Find all positions where the pair occurs
     i = 0
@@ -198,7 +198,7 @@ class FastRegexTokenizer:
         """
         - pattern: optional string to override the default (GPT-4 split pattern)
         - special_tokens: str -> int dictionary of special tokens
-          example: {'<|endoftext|>': 100257}
+          example: {'<|endoftext|>': 100257}.
         """
         self.pattern = GPT4_SPLIT_PATTERN if pattern is None else pattern
         self.compiled_pattern = re.compile(self.pattern)
@@ -222,7 +222,7 @@ class FastRegexTokenizer:
         - delete function call overhead by inlining functions
         - modifying list of ids in place with .pop() instead of creating a new list
         - collapse identical chunks to just the unique ones
-        - update counts more cleverly - only around the affected chunks
+        - update counts more cleverly - only around the affected chunks.
         """
         assert vocab_size >= 256
         num_merges = vocab_size - 256
@@ -395,7 +395,7 @@ from tokenizers.trainers import BpeTrainer
 
 
 class HuggingFaceTokenizer:
-    """Light wrapper around HuggingFace Tokenizer for some utilities"""
+    """Light wrapper around HuggingFace Tokenizer for some utilities."""
 
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
@@ -494,7 +494,7 @@ def enwik8_large(enwik8_path):
 
 
 def time_function(func, *args, **kwargs):
-    """Time a function call and return the result and elapsed time"""
+    """Time a function call and return the result and elapsed time."""
     start_time = time.time()
     result = func(*args, **kwargs)
     end_time = time.time()

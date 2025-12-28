@@ -1,6 +1,6 @@
 """
 GSM8K evaluation.
-https://huggingface.co/datasets/openai/gsm8k
+https://huggingface.co/datasets/openai/gsm8k.
 
 Example problem instance:
 
@@ -27,7 +27,7 @@ def extract_answer(completion):
     """
     Extract the numerical answer after #### marker.
     Follows official code for normalization:
-    https://github.com/openai/grade-school-math/blob/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/dataset.py#L28
+    https://github.com/openai/grade-school-math/blob/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/dataset.py#L28.
     """
     match = GSM_RE.search(completion)
     if match:
@@ -98,7 +98,7 @@ class GSM8K(Task):
         Given (conversation, completion), return evaluation outcome (0 = wrong, 1 = correct)
         Note that:
         - the conversation has both user AND assistant message (containing the ground truth answer)
-        - the assistant_response is usually the alternative assistant message achieved via sampling
+        - the assistant_response is usually the alternative assistant message achieved via sampling.
 
         TODO: Technically, assistant_response should be a Message (either a string or a list of parts)
               We can handle this later possibly. For now just assume string.
@@ -127,7 +127,7 @@ class GSM8K(Task):
     def reward(self, conversation, assistant_response):
         """
         Used during RL. To keep things simple, just re-use the evaluation above.
-        Later this could be made more complex (e.g. format matching etc.)
+        Later this could be made more complex (e.g. format matching etc.).
         """
         is_correct = self.evaluate(conversation, assistant_response)
         is_correct_float = float(is_correct)

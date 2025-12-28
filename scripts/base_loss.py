@@ -1,7 +1,7 @@
 """
 Loads a checkpoint, and:
 - Evaluates the loss on a larger chunk of train/val splits
-- Samples from the model
+- Samples from the model.
 
 Example run as:
 torchrun --standalone --nproc_per_node=8 -m scripts.base_loss

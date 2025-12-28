@@ -222,7 +222,7 @@ chat_metrics = ["ARC-Easy", "ARC-Challenge", "MMLU", "GSM8K", "HumanEval", "Chat
 
 
 def extract(section, keys):
-    """Simple def to extract a single key from a section"""
+    """Simple def to extract a single key from a section."""
     if not isinstance(keys, list):
         keys = [keys]  # convenience
     out = {}

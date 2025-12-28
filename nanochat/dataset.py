@@ -2,7 +2,7 @@
 The base/pretraining dataset is a set of parquet files.
 This file contains utilities for:
 - iterating over the parquet files and yielding documents from it
-- download the files on demand if they are not on disk
+- download the files on demand if they are not on disk.
 
 For details of how the dataset was prepared, see `repackage_data_reference.py`.
 """
@@ -45,7 +45,7 @@ def parquets_iter_batched(split, start=0, step=1):
     """
     Iterate through the dataset, in batches of underlying row_groups for efficiency.
     - split can be "train" or "val". the last parquet file will be val.
-    - start/step are useful for skipping rows in DDP. e.g. start=rank, step=world_size
+    - start/step are useful for skipping rows in DDP. e.g. start=rank, step=world_size.
     """
     assert split in ["train", "val"], "split must be 'train' or 'val'"
     parquet_paths = list_parquet_files()
@@ -60,7 +60,7 @@ def parquets_iter_batched(split, start=0, step=1):
 
 # -----------------------------------------------------------------------------
 def download_single_file(index):
-    """Downloads a single file index, with some backoff"""
+    """Downloads a single file index, with some backoff."""
     # Construct the local filepath for this file and skip if it already exists
     filename = index_to_filename(index)
     filepath = DATA_DIR / filename

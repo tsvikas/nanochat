@@ -1,6 +1,6 @@
 """
 Functions for evaluating the CORE metric, as described in the DCLM paper.
-https://arxiv.org/abs/2406.11794
+https://arxiv.org/abs/2406.11794.
 
 TODOs:
 - All tasks ~match except for squad. We get 31% reference is 37%. Figure out why.
@@ -17,7 +17,7 @@ from jinja2 import Template
 
 
 def render_prompts_mc(item, continuation_delimiter, fewshot_examples=None):
-    """Render complete prompts for a multiple choice question"""
+    """Render complete prompts for a multiple choice question."""
     template_str = """
 {%- for example in fewshot_examples -%}
 {{ example.query }}{{ continuation_delimiter }}{{ example.choices[example.gold] }}
@@ -36,7 +36,7 @@ def render_prompts_mc(item, continuation_delimiter, fewshot_examples=None):
 
 
 def render_prompts_schema(item, continuation_delimiter, fewshot_examples=None):
-    """Render complete prompts for a schema question"""
+    """Render complete prompts for a schema question."""
     template_str = """
 {%- for example in fewshot_examples -%}
 {{ example.context_options[example.gold] }}{{ continuation_delimiter }}{{ example.continuation }}
@@ -90,7 +90,7 @@ def render_prompts_lm(item, continuation_delimiter, fewshot_examples=None):
 def find_common_length(token_sequences, direction="left"):
     """
     Find the length of the common prefix or suffix across token sequences
-    - direction: 'left' for prefix, 'right' for suffix
+    - direction: 'left' for prefix, 'right' for suffix.
     """
     min_len = min(len(seq) for seq in token_sequences)
     indices = {
@@ -106,7 +106,7 @@ def find_common_length(token_sequences, direction="left"):
 
 
 def stack_sequences(tokens, pad_token_id):
-    """Stack up a list of token sequences, pad to longest on the right"""
+    """Stack up a list of token sequences, pad to longest on the right."""
     bsz, seq_len = len(tokens), max(len(x) for x in tokens)
     input_ids = torch.full((bsz, seq_len), pad_token_id, dtype=torch.long)
     for i, x in enumerate(tokens):
@@ -174,7 +174,7 @@ def forward_model(model, input_ids):
 
 @torch.no_grad()
 def evaluate_example(idx, model, tokenizer, data, device, task_meta):
-    """Evaluate a single example, return True if correct, False otherwise"""
+    """Evaluate a single example, return True if correct, False otherwise."""
     item = data[idx]
     task_type = task_meta["task_type"]
     num_fewshot = task_meta["num_fewshot"]

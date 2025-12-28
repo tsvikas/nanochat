@@ -37,7 +37,7 @@ from tokenizers.trainers import BpeTrainer
 
 
 class HuggingFaceTokenizer:
-    """Light wrapper around HuggingFace Tokenizer for some utilities"""
+    """Light wrapper around HuggingFace Tokenizer for some utilities."""
 
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
@@ -169,7 +169,7 @@ import rustbpe
 
 
 class RustBPETokenizer:
-    """Light wrapper around tiktoken (for efficient inference) but train with rustbpe"""
+    """Light wrapper around tiktoken (for efficient inference) but train with rustbpe."""
 
     def __init__(self, enc, bos_token):
         self.enc = enc
@@ -390,7 +390,7 @@ class RustBPETokenizer:
         return ids, mask
 
     def visualize_tokenization(self, ids, mask, with_token_id=False):
-        """Small helper function useful in debugging: visualize the tokenization of render_conversation"""
+        """Small helper function useful in debugging: visualize the tokenization of render_conversation."""
         RED = "\033[91m"
         GREEN = "\033[92m"
         RESET = "\033[0m"
