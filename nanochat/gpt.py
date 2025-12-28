@@ -16,8 +16,8 @@ from dataclasses import dataclass
 from functools import partial
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from nanochat.adamw import DistAdamW
 from nanochat.common import get_dist_info, print0
