@@ -151,7 +151,7 @@ class HuggingFaceTokenizer:
     def decode(self, ids):
         return self.tokenizer.decode(ids, skip_special_tokens=False)
 
-    def save(self, tokenizer_dir):
+    def save(self, tokenizer_dir) -> None:
         # save the tokenizer to disk
         tokenizer_dir.mkdir(parents=True, exist_ok=True)
         tokenizer_path = tokenizer_dir / "tokenizer.json"
@@ -273,7 +273,7 @@ class RustBPETokenizer:
     def decode(self, ids):
         return self.enc.decode(ids)
 
-    def save(self, tokenizer_dir):
+    def save(self, tokenizer_dir) -> None:
         # save the encoding object to disk
         tokenizer_dir.mkdir(parents=True, exist_ok=True)
         pickle_path = tokenizer_dir / "tokenizer.pkl"

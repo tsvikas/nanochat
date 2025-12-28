@@ -202,7 +202,7 @@ print(f"GPT-4: {vocab_sizes['gpt4']}")
 print(f"Ours: {vocab_sizes['ours']}")
 
 
-def print_comparison(baseline_name, baseline_results, ours_results, all_text):
+def print_comparison(baseline_name, baseline_results, ours_results, all_text) -> None:
     """Print comparison table between baseline tokenizer and ours."""
     print(f"\nComparison with {baseline_name}:")
     print("=" * 95)

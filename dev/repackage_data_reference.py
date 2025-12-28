@@ -85,7 +85,7 @@ for doc in ds:
 
 
 # Demonstration of how the data was later uploaded to HuggingFace
-def upload():
+def upload() -> None:
     import os
 
     from huggingface_hub import HfApi

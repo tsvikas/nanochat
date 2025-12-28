@@ -20,7 +20,7 @@ class ARC(Task):
         self.ds = load_dataset("allenai/ai2_arc", subset, split=split).shuffle(seed=42)
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "categorical"
 
     def num_examples(self):

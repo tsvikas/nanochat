@@ -55,7 +55,7 @@ class HumanEval(Task):
         self.ds = load_dataset("openai/openai_humaneval", split="test").shuffle(seed=42)
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "generative"
 
     def num_examples(self):

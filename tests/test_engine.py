@@ -9,7 +9,7 @@ import torch
 from nanochat.engine import KVCache
 
 
-def test_kv_cache_resize():
+def test_kv_cache_resize() -> None:
     """
     The KV cache was not resized correctly, more information here:
     https://github.com/karpathy/nanochat/pull/186

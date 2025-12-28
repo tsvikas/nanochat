@@ -31,6 +31,7 @@ import signal
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+from typing import NoReturn
 
 # -----------------------------------------------------------------------------
 
@@ -102,16 +103,16 @@ class TimeoutException(Exception):
 class WriteOnlyStringIO(io.StringIO):
     """StringIO that throws an exception when it's read from."""
 
-    def read(self, *args, **kwargs):
+    def read(self, *args, **kwargs) -> NoReturn:
         raise OSError
 
-    def readline(self, *args, **kwargs):
+    def readline(self, *args, **kwargs) -> NoReturn:
         raise OSError
 
-    def readlines(self, *args, **kwargs):
+    def readlines(self, *args, **kwargs) -> NoReturn:
         raise OSError
 
-    def readable(self, *args, **kwargs):
+    def readable(self, *args, **kwargs) -> bool:
         """Returns True if the IO object can be read."""
         return False
 
@@ -133,7 +134,7 @@ def chdir(root):
         os.chdir(cwd)
 
 
-def reliability_guard(maximum_memory_bytes: int | None = None):
+def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
     """
     This disables various destructive functions and prevents the generated code
     from interfering with the test (e.g. fork bomb, killing other processes,

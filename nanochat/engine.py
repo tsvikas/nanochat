@@ -116,13 +116,13 @@ class KVCache:
         self.kv_cache = None
         self.pos = 0  # current position in time in the cache
 
-    def reset(self):
+    def reset(self) -> None:
         self.pos = 0
 
     def get_pos(self):
         return self.pos
 
-    def prefill(self, other):
+    def prefill(self, other) -> None:
         """
         Prefill given another KV cache. Optionally expand along batch dim.
         This is used when we do batch 1 prefill and then want to generate

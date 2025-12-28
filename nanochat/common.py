@@ -50,7 +50,7 @@ class ColoredFormatter(logging.Formatter):
         return message
 
 
-def setup_default_logging():
+def setup_default_logging() -> None:
     handler = logging.StreamHandler()
     handler.setFormatter(
         ColoredFormatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -113,13 +113,13 @@ def download_file_with_lock(url, filename, postprocess_fn=None):
     return file_path
 
 
-def print0(s="", **kwargs):
+def print0(s="", **kwargs) -> None:
     ddp_rank = int(os.environ.get("RANK", 0))
     if ddp_rank == 0:
         print(s, **kwargs)
 
 
-def print_banner():
+def print_banner() -> None:
     # Cool DOS Rebel font ASCII banner made with https://manytools.org/hacker-tools/ascii-banner/
     banner = """
                                                        █████                █████
@@ -205,7 +205,7 @@ def compute_init(device_type="cuda"):  # cuda|cpu|mps
     return ddp, ddp_rank, ddp_local_rank, ddp_world_size, device
 
 
-def compute_cleanup():
+def compute_cleanup() -> None:
     """Companion function to compute_init, to clean things up before script exit."""
     if is_ddp():
         dist.destroy_process_group()
@@ -217,8 +217,8 @@ class DummyWandb:
     def __init__(self):
         pass
 
-    def log(self, *args, **kwargs):
+    def log(self, *args, **kwargs) -> None:
         pass
 
-    def finish(self):
+    def finish(self) -> None:
         pass

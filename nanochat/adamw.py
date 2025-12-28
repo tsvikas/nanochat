@@ -27,7 +27,7 @@ class DistAdamW(torch.optim.Optimizer):
 
     @torch.compile
     @torch.no_grad()
-    def step(self):
+    def step(self) -> None:
         rank = dist.get_rank()
         world_size = dist.get_world_size()
         reduce_scatter_futures: list[torch.Future] = []

@@ -6,6 +6,7 @@ Example tasks: MMLU, ARC-Easy, ARC-Challenge, GSM8K, HumanEval, SmolTalk.
 """
 
 import random
+from typing import NoReturn
 
 
 class Task:
@@ -23,14 +24,14 @@ class Task:
         self.step = step
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> NoReturn:
         # one of 'generative' | 'categorical'
         raise NotImplementedError
 
-    def num_examples(self):
+    def num_examples(self) -> NoReturn:
         raise NotImplementedError
 
-    def get_example(self, index):
+    def get_example(self, index) -> NoReturn:
         raise NotImplementedError
 
     def __len__(self):
@@ -48,7 +49,7 @@ class Task:
         conversation = self.get_example(physical_index)
         return conversation
 
-    def evaluate(self, problem, completion):
+    def evaluate(self, problem, completion) -> NoReturn:
         raise NotImplementedError
 
 

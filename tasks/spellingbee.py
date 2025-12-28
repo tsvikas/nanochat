@@ -128,7 +128,7 @@ class SpellingBee(Task):
         self.words = words
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "generative"
 
     def num_examples(self):
@@ -262,7 +262,7 @@ class SimpleSpelling(Task):
         self.words = words
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "generative"
 
     def num_examples(self):

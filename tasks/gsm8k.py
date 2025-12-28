@@ -45,7 +45,7 @@ class GSM8K(Task):
         self.ds = load_dataset("openai/gsm8k", subset, split=split).shuffle(seed=42)
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "generative"
 
     def num_examples(self):

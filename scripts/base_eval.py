@@ -42,7 +42,7 @@ from nanochat.tokenizer import HuggingFaceTokenizer
 EVAL_BUNDLE_URL = "https://karpathy-public.s3.us-west-2.amazonaws.com/eval_bundle.zip"
 
 
-def place_eval_bundle(file_path):
+def place_eval_bundle(file_path) -> None:
     # here file_path is the path to the eval_bundle.zip file
     # we need to unzip it and place it in the base directory
     base_dir = get_base_dir()
@@ -169,7 +169,7 @@ def load_hf_model(hf_path: str, device):
 
 
 # -----------------------------------------------------------------------------
-def main():
+def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser()

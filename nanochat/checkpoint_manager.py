@@ -16,14 +16,14 @@ setup_default_logging()
 logger = logging.getLogger(__name__)
 
 
-def log0(message):
+def log0(message) -> None:
     if int(os.environ.get("RANK", 0)) == 0:
         logger.info(message)
 
 
 def save_checkpoint(
     checkpoint_dir, step, model_data, optimizer_data, meta_data, rank=0
-):
+) -> None:
     if rank == 0:
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         # Save the model state parameters

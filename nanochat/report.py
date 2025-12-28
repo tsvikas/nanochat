@@ -384,7 +384,7 @@ class Report:
         shutil.copy(report_file, "report.md")
         return report_file
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset the report."""
         # Remove section files
         for file_name in EXPECTED_FILES:
@@ -408,10 +408,10 @@ class Report:
 
 
 class DummyReport:
-    def log(self, *args, **kwargs):
+    def log(self, *args, **kwargs) -> None:
         pass
 
-    def reset(self, *args, **kwargs):
+    def reset(self, *args, **kwargs) -> None:
         pass
 
 

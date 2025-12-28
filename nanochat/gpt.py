@@ -193,7 +193,7 @@ class GPT(nn.Module):
         )  # persistent=False means it's not saved to the checkpoint
         self.register_buffer("sin", sin, persistent=False)
 
-    def init_weights(self):
+    def init_weights(self) -> None:
         self.apply(self._init_weights)
         # zero out classifier weights
         torch.nn.init.zeros_(self.lm_head.weight)

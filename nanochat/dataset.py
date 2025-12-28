@@ -59,7 +59,7 @@ def parquets_iter_batched(split, start=0, step=1):
 
 
 # -----------------------------------------------------------------------------
-def download_single_file(index):
+def download_single_file(index) -> bool:
     """Downloads a single file index, with some backoff."""
     # Construct the local filepath for this file and skip if it already exists
     filename = index_to_filename(index)

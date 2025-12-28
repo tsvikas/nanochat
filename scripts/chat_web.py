@@ -146,7 +146,7 @@ class WorkerPool:
 
     async def initialize(
         self, source: str, model_tag: str | None = None, step: int | None = None
-    ):
+    ) -> None:
         """Load model on each GPU."""
         print(f"Initializing worker pool with {self.num_gpus} GPUs...")
         if self.num_gpus > 1:
@@ -188,7 +188,7 @@ class WorkerPool:
         """Get an available worker from the pool."""
         return await self.available_workers.get()
 
-    async def release_worker(self, worker: Worker):
+    async def release_worker(self, worker: Worker) -> None:
         """Return a worker to the pool."""
         await self.available_workers.put(worker)
 
@@ -205,7 +205,7 @@ class ChatRequest(BaseModel):
     top_k: int | None = None
 
 
-def validate_chat_request(request: ChatRequest):
+def validate_chat_request(request: ChatRequest) -> None:
     """Validate chat request to prevent abuse."""
     # Check number of messages
     if len(request.messages) == 0:

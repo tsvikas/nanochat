@@ -76,7 +76,7 @@ class Muon(torch.optim.Optimizer):
         super().__init__(param_groups, defaults)
 
     @torch.no_grad()
-    def step(self):
+    def step(self) -> None:
         for group in self.param_groups:
             params: list[Tensor] = group["params"]
             for p in params:
@@ -147,7 +147,7 @@ class DistMuon(torch.optim.Optimizer):
         super().__init__(param_groups, defaults)
 
     @torch.no_grad()
-    def step(self):
+    def step(self) -> None:
         rank = dist.get_rank()
         world_size = dist.get_world_size()
 

@@ -88,7 +88,7 @@ class MMLU(Task):
             self.ds = self.ds.map(lambda row: row["train"], remove_columns=["train"])
 
     @property
-    def eval_type(self):
+    def eval_type(self) -> str:
         return "categorical"
 
     def num_examples(self):

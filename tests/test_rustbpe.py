@@ -216,7 +216,7 @@ class FastRegexTokenizer:
             vocab[idx] = special.encode("utf-8")
         return vocab
 
-    def train(self, text, vocab_size, verbose=False):
+    def train(self, text, vocab_size, verbose=False) -> None:
         """
         A number of optimizations are introduced:
         - delete function call overhead by inlining functions
@@ -334,7 +334,7 @@ class FastRegexTokenizer:
         self.merges = merges  # used in encode()
         self.vocab = vocab  # used in decode()
 
-    def register_special_tokens(self, special_tokens):
+    def register_special_tokens(self, special_tokens) -> None:
         # special_tokens is a dictionary of str -> int
         # example: {"<|endoftext|>": 100257}
         self.special_tokens = special_tokens
@@ -502,7 +502,7 @@ def time_function(func, *args, **kwargs):
     return result, elapsed
 
 
-def test_correctness(enwik8_small):
+def test_correctness(enwik8_small) -> None:
     """Test that all tokenizer implementations produce the same results."""
     text = enwik8_small
     encode_text = text
@@ -614,7 +614,7 @@ def test_correctness(enwik8_small):
 
 
 @pytest.mark.slow
-def test_training_performance(enwik8_large):
+def test_training_performance(enwik8_large) -> None:
     """Use a bigger dataset and compare the training speed of the optimized tokenizers (Python, Rust, HuggingFace)."""
     text = enwik8_large
     vocab_size = 2048
@@ -651,7 +651,7 @@ def test_training_performance(enwik8_large):
     print(f"   Speedup: {hf_train_time / rustbpe_train_time:.2f}x")
 
 
-def test_interface(enwik8_small):
+def test_interface(enwik8_small) -> None:
     """Test the RustBPETokenizer interface for training, encoding, decoding, and serialization."""
     import tempfile
 
