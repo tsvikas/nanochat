@@ -431,10 +431,10 @@ async def chat_completions(request: ChatRequest):
             stream_and_release(),
             media_type="text/event-stream",
         )
-    except Exception as e:
+    except Exception:
         # Make sure to release worker even on error
         await worker_pool.release_worker(worker)
-        raise e
+        raise
 
 
 @app.get("/health")
