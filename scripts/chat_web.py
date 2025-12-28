@@ -474,7 +474,7 @@ async def stats():
 if __name__ == "__main__":
     import uvicorn
 
-    print(f"Starting NanoChat Web Server")
+    print("Starting NanoChat Web Server")
     print(
         f"Temperature: {args.temperature}, Top-k: {args.top_k}, Max tokens: {args.max_tokens}"
     )
