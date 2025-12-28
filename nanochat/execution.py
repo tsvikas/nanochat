@@ -140,7 +140,7 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
     from interfering with the test (e.g. fork bomb, killing other processes,
     removing filesystem files, etc.)
 
-    Warning
+    Warning:
     This function is NOT a security sandbox. Untrusted code, including, model-
     generated code, should not be blindly executed outside of one. See the
     Codex paper for more information about OpenAI's code sandbox, and proceed
