@@ -287,6 +287,7 @@ class RustBPETokenizer:
         Returns:
         - ids: list[int] is a list of token ids of this rendered conversation
         - mask: list[int] of same length, mask = 1 for tokens that the Assistant is expected to train on.
+
         """
         # ids, masks that we will return and a helper function to help build them up.
         ids, mask = [], []

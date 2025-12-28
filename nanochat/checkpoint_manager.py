@@ -66,6 +66,7 @@ def build_model(checkpoint_dir, step, device, phase):
     - base model - uncompiled, not wrapped in DDP
     - tokenizer
     - meta data saved during base model training
+
     """
     assert phase in ["train", "eval"], f"Invalid phase: {phase}"
     model_data, optimizer_data, meta_data = load_checkpoint(

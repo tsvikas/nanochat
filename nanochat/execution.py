@@ -145,6 +145,7 @@ def reliability_guard(maximum_memory_bytes: Optional[int] = None):
     generated code, should not be blindly executed outside of one. See the
     Codex paper for more information about OpenAI's code sandbox, and proceed
     with caution.
+
     """
     if platform.uname().system != "Darwin":
         # These resource limit calls seem to fail on macOS (Darwin), skip?
@@ -325,6 +326,7 @@ def execute_code(
         True
         >>> result.stdout
         'hello world\\n'
+
     """
     manager = multiprocessing.Manager()
     result_dict = manager.dict()

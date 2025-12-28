@@ -63,6 +63,7 @@ class Muon(torch.optim.Optimizer):
         momentum: The momentum used by the internal SGD.
         nesterov: Whether to use Nesterov-style momentum in the internal SGD. (recommended)
         ns_steps: The number of Newton-Schulz iteration steps to use.
+
     """
 
     def __init__(self, params, lr=0.02, momentum=0.95, nesterov=True, ns_steps=5):
@@ -111,6 +112,7 @@ class DistMuon(torch.optim.Optimizer):
         momentum: momentum coefficient in [0,1)
         nesterov: if True, Nesterov-style update (g <- lerp(g, buf, momentum)); else use buf
         ns_steps: number of Newton–Schulz iterations for the orthogonalization
+
     """
 
     def __init__(
