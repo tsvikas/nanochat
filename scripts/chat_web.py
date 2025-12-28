@@ -35,10 +35,10 @@ import asyncio
 import json
 import logging
 import random
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager, nullcontext
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncGenerator
 
 import torch
 from fastapi import FastAPI, HTTPException
