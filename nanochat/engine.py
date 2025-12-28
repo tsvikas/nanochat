@@ -175,7 +175,7 @@ class KVCache:
         if self.kv_cache is None:
             self.kv_cache = torch.empty(self.kv_shape, dtype=k.dtype, device=k.device)
         # Insert new keys/values to the cache and return the full cache so far
-        B, H, T_add, D = k.size()
+        _B, _H, T_add, _D = k.size()
         t0, t1 = self.pos, self.pos + T_add
         # Dynamically grow the cache if needed
         if t1 > self.kv_cache.size(4):

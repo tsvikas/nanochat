@@ -45,7 +45,7 @@ def run_generative_eval(
     top_k,
     max_problems=None,
 ):
-    ddp, ddp_rank, ddp_local_rank, ddp_world_size = get_dist_info()
+    ddp, ddp_rank, _ddp_local_rank, ddp_world_size = get_dist_info()
     device = model.get_device()
 
     num_problems = (
@@ -117,7 +117,7 @@ def run_generative_eval(
 
 
 def run_categorical_eval(task_object, tokenizer, model, batch_size, max_problems=None):
-    ddp, ddp_rank, ddp_local_rank, ddp_world_size = get_dist_info()
+    ddp, ddp_rank, _ddp_local_rank, ddp_world_size = get_dist_info()
     device = model.get_device()
     bos = (
         tokenizer.get_bos_token_id()

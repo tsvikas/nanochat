@@ -186,7 +186,7 @@ def main() -> None:
 
     # distributed / precision setup
     device_type = autodetect_device_type()
-    ddp, ddp_rank, ddp_local_rank, ddp_world_size, device = compute_init(device_type)
+    _ddp, ddp_rank, _ddp_local_rank, _ddp_world_size, device = compute_init(device_type)
     autocast_ctx = (
         torch.amp.autocast(device_type=device_type, dtype=torch.bfloat16)
         if device_type == "cuda"

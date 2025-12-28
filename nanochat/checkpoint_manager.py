@@ -70,7 +70,7 @@ def build_model(checkpoint_dir, step, device, phase):
 
     """
     assert phase in ["train", "eval"], f"Invalid phase: {phase}"
-    model_data, optimizer_data, meta_data = load_checkpoint(
+    model_data, _optimizer_data, meta_data = load_checkpoint(
         checkpoint_dir, step, device, load_optimizer=False
     )
     if device.type in {"cpu", "mps"}:

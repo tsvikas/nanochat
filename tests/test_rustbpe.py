@@ -638,7 +638,7 @@ def test_training_performance(enwik8_large) -> None:
 
     # Train HuggingFace
     print("\nTraining HuggingFace...")
-    hf_tokenizer, hf_train_time = time_function(
+    _hf_tokenizer, hf_train_time = time_function(
         HuggingFaceTokenizer.train_from_iterator, [text], vocab_size
     )
     print(f"HuggingFace train time: {hf_train_time:.4f}s")

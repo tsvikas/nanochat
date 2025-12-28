@@ -32,7 +32,7 @@ def tokenizing_distributed_data_loader_with_state(
     assert split in ["train", "val"], "split must be 'train' or 'val'"
 
     # infinite iterator over document batches (list of text strings)
-    ddp, ddp_rank, ddp_local_rank, ddp_world_size = get_dist_info()
+    _ddp, ddp_rank, _ddp_local_rank, ddp_world_size = get_dist_info()
 
     def document_batches():
         parquet_paths = list_parquet_files()

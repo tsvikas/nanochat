@@ -419,7 +419,7 @@ class RustBPETokenizer:
         messages.pop()  # remove the last message (of the Assistant) inplace
 
         # Now tokenize the conversation
-        ids, mask = self.render_conversation(conversation)
+        ids, _mask = self.render_conversation(conversation)
 
         # Finally, to prime the Assistant for a completion, append the Assistant start token
         assistant_start = self.encode_special("<|assistant_start|>")
