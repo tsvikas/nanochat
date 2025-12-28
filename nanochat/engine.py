@@ -58,7 +58,7 @@ def use_calculator(expr):
     expr = expr.replace(",", "")
 
     # Check if it's a pure math expression (old behavior)
-    if all([x in "0123456789*+-/.() " for x in expr]):
+    if all(x in "0123456789*+-/.() " for x in expr):
         if "**" in expr:  # disallow power operator
             return None
         return eval_with_timeout(expr)
@@ -68,7 +68,7 @@ def use_calculator(expr):
     allowed_chars = (
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'\"()._ "
     )
-    if not all([x in allowed_chars for x in expr]):
+    if not all(x in allowed_chars for x in expr):
         return None
 
     # Disallow dangerous patterns
