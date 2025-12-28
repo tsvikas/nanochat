@@ -255,9 +255,8 @@ class Engine:
         seed=42,
     ):
         """Same as generate, but does single prefill and then clones the KV cache."""
-        assert isinstance(tokens, list) and tokens and isinstance(tokens[0], int), (
-            "expecting list of ints"
-        )
+        if not isinstance(tokens, list) or not tokens or not isinstance(tokens[0], int):
+            raise ValueError("tokens must be a list of ints")
         device = self.model.get_device()
         rng = torch.Generator(device=device)
         rng.manual_seed(seed)

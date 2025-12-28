@@ -83,10 +83,12 @@ def capture_io():
     stdout_capture = io.StringIO()
     stderr_capture = io.StringIO()
     stdin_block = WriteOnlyStringIO()
-    with contextlib.redirect_stdout(stdout_capture):
-        with contextlib.redirect_stderr(stderr_capture):
-            with redirect_stdin(stdin_block):
-                yield stdout_capture, stderr_capture
+    with (
+        contextlib.redirect_stdout(stdout_capture),
+        contextlib.redirect_stderr(stderr_capture),
+        redirect_stdin(stdin_block),
+    ):
+        yield stdout_capture, stderr_capture
 
 
 @contextlib.contextmanager
@@ -250,19 +252,24 @@ def _unsafe_execute(
         )
 
         try:
+            # WARNING ################
+            # This program exists to execute untrusted model-generated code. Although
+            # it is highly unlikely that model-generated code will do something overtly
+            # malicious in response to this test suite, model-generated code may act
+            # destructively due to a lack of model capability or alignment.
+            # Users are strongly encouraged to sandbox this evaluation suite so that it
+            # does not perform destructive actions on their host or network. For more
+            # information on how OpenAI sandboxes its code, see the accompanying paper.
+            # Once you have read this disclaimer and taken appropriate precautions,
+            # change the following line and proceed at your own risk:
+            # ########################
+            allow_destructive_actions = False
             exec_globals = {}
-            with capture_io() as (stdout_capture, stderr_capture):
-                with time_limit(timeout):
-                    # WARNING
-                    # This program exists to execute untrusted model-generated code. Although
-                    # it is highly unlikely that model-generated code will do something overtly
-                    # malicious in response to this test suite, model-generated code may act
-                    # destructively due to a lack of model capability or alignment.
-                    # Users are strongly encouraged to sandbox this evaluation suite so that it
-                    # does not perform destructive actions on their host or network. For more
-                    # information on how OpenAI sandboxes its code, see the accompanying paper.
-                    # Once you have read this disclaimer and taken appropriate precautions,
-                    # uncomment the following line and proceed at your own risk:
+            if allow_destructive_actions:
+                with (
+                    capture_io() as (stdout_capture, stderr_capture),
+                    time_limit(timeout),
+                ):
                     exec(code, exec_globals)
 
             result_dict.update(
