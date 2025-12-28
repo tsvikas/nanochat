@@ -91,9 +91,8 @@ def capture_io():
 
 @contextlib.contextmanager
 def create_tempdir():
-    with tempfile.TemporaryDirectory() as dirname:
-        with chdir(dirname):
-            yield dirname
+    with tempfile.TemporaryDirectory() as dirname, chdir(dirname):
+        yield dirname
 
 
 class TimeoutException(Exception):
