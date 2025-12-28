@@ -2,4 +2,7 @@
 select = [
   "F401",  # unused-import
   "I001",  # unsorted-imports
+  # docstring type
+  "D211",
+  "D213",
 ]
