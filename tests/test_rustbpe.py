@@ -457,7 +457,7 @@ class HuggingFaceTokenizer:
 @pytest.fixture(scope="module")
 def enwik8_path():
     """Fixture to download and cache enwik8 dataset."""
-    from nanochat.common import get_base_dir
+    from nanochat.common import get_base_dir  # noqa: PLC0415
 
     base_dir = get_base_dir()
     # download and unzip enwik8 to .cache directory
@@ -653,7 +653,7 @@ def test_training_performance(enwik8_large) -> None:
 
 def test_interface(enwik8_small) -> None:
     """Test the RustBPETokenizer interface for training, encoding, decoding, and serialization."""
-    from nanochat.tokenizer import RustBPETokenizer
+    from nanochat.tokenizer import RustBPETokenizer  # noqa: PLC0415
 
     # Simple train test
     vocab_size = 300

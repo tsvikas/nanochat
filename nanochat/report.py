@@ -417,7 +417,7 @@ class DummyReport:
 
 def get_report():
     # just for convenience, only rank 0 logs to report
-    from nanochat.common import get_base_dir, get_dist_info
+    from nanochat.common import get_base_dir, get_dist_info  # noqa: PLC0415
 
     _ddp, ddp_rank, _ddp_local_rank, _ddp_world_size = get_dist_info()
     if ddp_rank == 0:

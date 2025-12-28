@@ -432,7 +432,7 @@ class RustBPETokenizer:
 
 
 def get_tokenizer():
-    from nanochat.common import get_base_dir
+    from nanochat.common import get_base_dir  # noqa: PLC0415
 
     base_dir = get_base_dir()
     tokenizer_dir = base_dir / "tokenizer"
@@ -441,9 +441,9 @@ def get_tokenizer():
 
 
 def get_token_bytes(device="cpu"):
-    import torch
+    import torch  # noqa: PLC0415
 
-    from nanochat.common import get_base_dir
+    from nanochat.common import get_base_dir  # noqa: PLC0415
 
     base_dir = get_base_dir()
     tokenizer_dir = base_dir / "tokenizer"

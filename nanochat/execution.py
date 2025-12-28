@@ -148,7 +148,7 @@ def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
     """
     if platform.uname().system != "Darwin":
         # These resource limit calls seem to fail on macOS (Darwin), skip?
-        import resource
+        import resource  # noqa: PLC0415
 
         resource.setrlimit(
             resource.RLIMIT_AS, (maximum_memory_bytes, maximum_memory_bytes)
@@ -162,12 +162,12 @@ def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
 
     faulthandler.disable()
 
-    import builtins
+    import builtins  # noqa: PLC0415
 
     builtins.exit = None
     builtins.quit = None
 
-    import os
+    import os  # noqa: PLC0415
 
     os.environ["OMP_NUM_THREADS"] = "1"
 
@@ -199,19 +199,19 @@ def reliability_guard(maximum_memory_bytes: int | None = None) -> None:
     os.getcwd = None
     os.chdir = None
 
-    import shutil
+    import shutil  # noqa: PLC0415
 
     shutil.rmtree = None
     shutil.move = None
     shutil.chown = None
 
-    import subprocess
+    import subprocess  # noqa: PLC0415
 
     subprocess.Popen = None  # type: ignore
 
     __builtins__["help"] = None
 
-    import sys
+    import sys  # noqa: PLC0415
 
     sys.modules["ipdb"] = None
     sys.modules["joblib"] = None
@@ -226,8 +226,8 @@ def _unsafe_execute(
     """Execute code in a subprocess with safety guards. Results are written to result_dict."""
     with create_tempdir():
         # These system calls are needed when cleaning up tempdir.
-        import os
-        import shutil
+        import os  # noqa: PLC0415
+        import shutil  # noqa: PLC0415
 
         rmtree = shutil.rmtree
         rmdir = os.rmdir
