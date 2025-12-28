@@ -44,9 +44,7 @@ ANSWER_RE = re.compile(r"#### (\-?[0-9\.\,]+)")
 
 
 def extract_answer(completion):
-    """
-    Extract the numerical answer after #### marker.
-    """
+    """Extract the numerical answer after #### marker."""
     match = ANSWER_RE.search(completion)
     if match:
         match_str = match.group(1).strip()

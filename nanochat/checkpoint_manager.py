@@ -1,6 +1,4 @@
-"""
-Utilities for saving and loading model/optim/state checkpoints.
-"""
+"""Utilities for saving and loading model/optim/state checkpoints."""
 
 import json
 import logging

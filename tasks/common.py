@@ -9,9 +9,7 @@ import random
 
 
 class Task:
-    """
-    Base class of a Task. Allows for lightweight slicing of the underlying dataset.
-    """
+    """Base class of a Task. Allows for lightweight slicing of the underlying dataset."""
 
     def __init__(self, start=0, stop=None, step=1):
         # allows a lightweight logical view over a dataset

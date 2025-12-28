@@ -1,6 +1,4 @@
-"""
-Common utilities for nanochat.
-"""
+"""Common utilities for nanochat."""
 
 import logging
 import os

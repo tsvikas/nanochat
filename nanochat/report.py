@@ -1,6 +1,4 @@
-"""
-Utilities for generating training report cards. More messy code than usual, will fix.
-"""
+"""Utilities for generating training report cards. More messy code than usual, will fix."""
 
 import datetime
 import os
