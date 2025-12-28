@@ -10,6 +10,7 @@ torchrun --nproc_per_node=8 -m scripts.base_eval
 The script will print the CORE metric to the console.
 """
 
+import argparse
 import csv
 import json
 import random
@@ -22,6 +23,7 @@ from pathlib import Path
 
 import torch
 import yaml
+from transformers import AutoModelForCausalLM
 
 from nanochat.checkpoint_manager import load_model
 from nanochat.common import (
@@ -33,6 +35,7 @@ from nanochat.common import (
     print0,
 )
 from nanochat.core_eval import evaluate_task
+from nanochat.report import get_report
 from nanochat.tokenizer import HuggingFaceTokenizer
 
 # -----------------------------------------------------------------------------
@@ -156,8 +159,6 @@ class ModelWrapper:
 def load_hf_model(hf_path: str, device):
     print0(f"Loading model from: {hf_path}")
     # Load the model
-    from transformers import AutoModelForCausalLM
-
     model = AutoModelForCausalLM.from_pretrained(hf_path)
     model.to(device)
     model.eval()
@@ -170,8 +171,6 @@ def load_hf_model(hf_path: str, device):
 
 # -----------------------------------------------------------------------------
 def main() -> None:
-    import argparse
-
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--hf-path", type=str, default=None, help="HuggingFace model path to evaluate"
@@ -236,8 +235,6 @@ def main() -> None:
             print0(f.read())
 
     # Log to report
-    from nanochat.report import get_report
-
     get_report().log(
         section="Base model evaluation",
         data=[

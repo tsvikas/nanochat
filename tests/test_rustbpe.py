@@ -19,11 +19,14 @@ python -m pytest tests/test_rustbpe.py -v -s
 """
 
 import itertools
+import tempfile
 import time
+import zipfile
 from collections import Counter, defaultdict
 
 import pytest
 import regex as re
+import requests
 import tiktoken
 
 import rustbpe
@@ -454,8 +457,6 @@ class HuggingFaceTokenizer:
 @pytest.fixture(scope="module")
 def enwik8_path():
     """Fixture to download and cache enwik8 dataset."""
-    import zipfile
-
     from nanochat.common import get_base_dir
 
     base_dir = get_base_dir()
@@ -465,7 +466,6 @@ def enwik8_path():
     enwik8_local_path_zip = base_dir / "enwik8.zip"
     if not enwik8_local_path.exists():
         print(f"Downloading enwik8 to {enwik8_local_path_zip}")
-        import requests
 
         response = requests.get(enwik8_url)
         with enwik8_local_path_zip.open("wb") as f:
@@ -653,8 +653,6 @@ def test_training_performance(enwik8_large) -> None:
 
 def test_interface(enwik8_small) -> None:
     """Test the RustBPETokenizer interface for training, encoding, decoding, and serialization."""
-    import tempfile
-
     from nanochat.tokenizer import RustBPETokenizer
 
     # Simple train test

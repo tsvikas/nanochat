@@ -14,12 +14,14 @@ NOTE: This file is meant only as reference/documentation of the
 dataset preparation and it is not used during the project runtime.
 """
 
+import os
 import time
 from pathlib import Path
 
 import pyarrow as pa
 import pyarrow.parquet as pq
 from datasets import load_dataset
+from huggingface_hub import HfApi
 
 # Source dataset
 dataset_kwargs = {
@@ -86,10 +88,6 @@ for doc in ds:
 
 # Demonstration of how the data was later uploaded to HuggingFace
 def upload() -> None:
-    import os
-
-    from huggingface_hub import HfApi
-
     token = os.getenv("HF_TOKEN")
     api = HfApi(token=token)
     api.upload_large_folder(
